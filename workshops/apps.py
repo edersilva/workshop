@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class WorkshopConfig(AppConfig):
+class WorkshopsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'workshop'
+    name = 'workshops'
