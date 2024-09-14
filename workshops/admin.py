@@ -1,9 +1,15 @@
 from django.contrib import admin
-from .models import Workshop
+from .models import Workshop, Category
 
 class WorkshopAdmin(admin.ModelAdmin):
     list_display = ('title', 'description', 'startdate', 'enddate')
     search_fields = ('title', 'description')
     list_filter = ('startdate', 'enddate')
 
+
+class CategoriesAdmin(admin.ModelAdmin):
+    list_display = ('title',)
+    search_fields = ('title',)
+
 admin.site.register(Workshop, WorkshopAdmin)
+admin.site.register(Category, CategoriesAdmin)

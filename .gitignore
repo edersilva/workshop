@@ -34,3 +34,6 @@ Thumbs.db
 media/
 static/
 *.env
+
+# Ignore all migrations directories in any app
+**/migrations/
