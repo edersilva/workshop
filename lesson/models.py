@@ -3,7 +3,7 @@ from professor.models import Professor
 class Lesson(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, verbose_name="Aula")
-    description = models.TextField(default="Nenhuma descrição definida", verbose_name="Descrição")
+    content = models.TextField(default="Nenhuma descrição definida", verbose_name="Descrição")
     short_description = models.TextField(default="Nenhuma descrição definida", verbose_name="Resumo")
     image = models.ImageField(upload_to='lessons/', null=True, blank=True, verbose_name="Imagem")
     video = models.TextField(verbose_name="Video")

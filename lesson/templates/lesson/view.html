@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ lesson.title }}</h1>
+<p>Professor(a): {{ lesson.professor.title }}</p>
+<p>{{ lesson.content }}</p>
+{% if lesson.workshops.all %}
+    <h2 class="text-xl font-semibold mt-6 mb-4">Outras aulas deste workshop:</h2>
+    <div class="flex-1 gap-4">
+        {% for workshop in lesson.workshops.all %}
+            {% for related_lesson in workshop.lessons.all %}
+                {% if related_lesson != lesson %}
+                    {% include 'lesson/lessons.html' with lesson=related_lesson workshop=workshop %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock %}

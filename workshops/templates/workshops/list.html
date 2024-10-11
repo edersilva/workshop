@@ -1,31 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
-</head>
-<body>
-    <h1>{{ title }}</h1>
-    
-    {% if workshops %}
-        <ul>
-        {% for workshop in workshops %}
-            <li>
-                <h2>{{ workshop.title }}</h2>
-                {% if workshop.image %}
-                    <img src="{{ workshop.image.url }}" alt="{{ workshop.title }}">
-                {% else %}
-                    <p>Imagem não disponível</p>
-                {% endif %}
-                <p>Data de início: {{ workshop.startdate|date:"d/m/Y" }}</p>
-                <p>{{ workshop.description|truncatewords:30 }}</p>
-                <p>Average Rating: {{ workshop.avg_rating|default:"No ratings yet"|floatformat:1 }}</p>
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>Não há workshops cadastrados no momento.</p>
-    {% endif %}
-</body>
-</html>
+{% extends "base.html" %} {% block content %}
+{% if workshops %}
+<ul class="space-y-6">
+  {% for workshop in workshops %}
+    {% include "workshop_card.html" with workshop=workshop %}
+  {% endfor %}
+</ul>
+{% else %}
+<p class="text-center text-gray-700">
+  Não há workshops cadastrados no momento.
+</p>
+{% endif %} {% endblock %} {% block scripts %}
+<script>
+  // ... (seu código JavaScript aqui)
+</script>
+{% endblock %}

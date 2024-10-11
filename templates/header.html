@@ -1,0 +1,63 @@
+<header
+  class="bg-blue-600 text-white min-h-[200px] flex items-center justify-between px-4"
+>
+  <button id="backBtn" class="text-2xl">
+    <i class="fas fa-arrow-left"></i>
+  </button>
+  <h1 class="text-3xl font-bold">
+    {% if workshop_title %}
+      {{ workshop_title }}
+    {% else %}
+      {{ title }}
+    {% endif %}
+  </h1>
+  <button id="menuBtn" class="text-2xl"><i class="fas fa-bars"></i></button>
+</header>
+
+<div
+  id="mobileMenu"
+  class="fixed top-0 left-0 w-4/5 h-full bg-white shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out z-50"
+>
+  <div class="p-6">
+    <h2 class="text-2xl font-bold mb-6">Olá<br />Usuário</h2>
+    <nav>
+      <ul class="space-y-4">
+        <li>
+          <a href="#" class="flex items-center"
+            ><i class="fas fa-home w-8"></i> Home</a
+          >
+        </li>
+        <li>
+          <a href="#" class="flex items-center"
+            ><i class="fas fa-user w-8"></i> Meus dados</a
+          >
+        </li>
+        <li>
+          <a href="#" class="flex items-center"
+            ><i class="fas fa-key w-8"></i> Atualizar senha</a
+          >
+        </li>
+        <li>
+          <a href="#" class="flex items-center"
+            ><i class="fas fa-chalkboard-teacher w-8"></i> Meus Workshops</a
+          >
+        </li>
+        <li>
+          <a href="#" class="flex items-center"
+            ><i class="fas fa-star w-8"></i> Favoritos</a
+          >
+        </li>
+        <li>
+          <a href="#" class="flex items-center"
+            ><i class="fas fa-certificate w-8"></i> Certificados</a
+          >
+        </li>
+        <li>
+          <a href="#" class="flex items-center"
+            ><i class="fas fa-comments w-8"></i> Comentários</a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

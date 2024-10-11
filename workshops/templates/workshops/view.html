@@ -1,0 +1,95 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-4">{{ workshop.name }}</h1>
+
+  <div class="flex justify-between items-center mb-4">
+    <div class="flex items-center space-x-4">
+      <div class="border rounded-lg px-2 py-1">
+        {% with workshop_rating=workshop.avg_rating|default_if_none:0 %}
+          {% include 'rating.html' with rating=workshop_rating %}
+        {% endwith %}
+      </div>
+      <div class="border rounded-lg px-2 py-1">
+        <span>{{ workshop.lessons.count }} aulas</span>
+      </div>
+    </div>
+    <button id="favoriteBtn" class="text-2xl focus:outline-none">
+      <i
+        class="fas fa-heart {% if workshop.is_favorite %}text-red-500{% else %}text-gray-300{% endif %}"
+      ></i>
+    </button>
+  </div>
+
+  <div x-data="{ activeTab: 'sobre' }">
+    <div class="border-b border-gray-200">
+      <nav class="-mb-px flex">
+        <a
+          @click.prevent="activeTab = 'sobre'"
+          :class="{ 'border-indigo-500 text-indigo-600': activeTab === 'sobre' }"
+          class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm cursor-pointer"
+        >
+          Sobre
+        </a>
+        <a
+          @click.prevent="activeTab = 'aulas'"
+          :class="{ 'border-indigo-500 text-indigo-600': activeTab === 'aulas' }"
+          class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm cursor-pointer"
+        >
+          Aulas
+        </a>
+        <a
+          @click.prevent="activeTab = 'avaliacoes'"
+          :class="{ 'border-indigo-500 text-indigo-600': activeTab === 'avaliacoes' }"
+          class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm cursor-pointer"
+        >
+          Avaliações
+        </a>
+      </nav>
+    </div>
+
+    <div x-show="activeTab === 'sobre'" class="mt-4 description">
+      <p class="mb-4">{{ workshop.description }}</p>
+    </div>
+
+    <div x-show="activeTab === 'aulas'" class="mt-4 lessons" x-cloak>
+      <div class="flex-1 gap-4">
+        {% for lesson in workshop.lessons.all %}
+        {% include 'lesson/lessons.html' %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div x-show="activeTab === 'avaliacoes'" class="mt-4 reviews" x-cloak>
+      {% for review in workshop.reviews.all %}
+      <div class="bg-white shadow rounded-lg p-4 mb-4">
+        <div class="flex items-center mb-2">
+          <span class="font-semibold mr-2">{{ review.user.name }}</span>
+          {% include 'rating.html' with rating=review.rating %}
+        </div>
+        <p>{{ review.comment }}</p>
+        
+      </div>
+      {% endfor %}
+      {% include 'reviews/list.html' with workshop=workshop %}
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  document.getElementById("favoriteBtn").addEventListener("click", function () {
+    fetch("/api/favorite-workshop/{{ workshop.id }}/", {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          this.querySelector("i").classList.toggle("text-red-500");
+          this.querySelector("i").classList.toggle("text-gray-300");
+        }
+      });
+  });
+</script>
+{% endblock %}

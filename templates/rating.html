@@ -1,0 +1,5 @@
+{% with ''|center:5 as range %}
+    {% for _ in range %}
+        <i class="fas fa-star {% if forloop.counter <= workshop.avg_rating %}text-yellow-400{% else %}text-gray-300{% endif %}"></i>
+    {% endfor %}
+{% endwith %}
