@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.urls import reverse
 from .forms import CustomUserCreationForm, LoginForm
@@ -42,3 +42,8 @@ def login_view(request):
         'title': 'Login',
     }
     return render(request, 'accounts/login.html', context)
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'Logout realizado com sucesso!')
+    return redirect('workshop_list')
