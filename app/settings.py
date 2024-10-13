@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'address',
     'certificate',
     'professor',
+    'accounts',
 ]
 
 MIDDLEWARE = [

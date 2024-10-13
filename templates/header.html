@@ -19,7 +19,8 @@
   class="fixed top-0 left-0 w-4/5 h-full bg-white shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out z-50"
 >
   <div class="p-6">
-    <h2 class="text-2xl font-bold mb-6">Olá<br />Usuário</h2>
+    <h2 class="text-2xl font-bold mb-2">Olá, {{ user.first_name|default:user.username }}</h2>
+    <p class="text-sm text-gray-600 mb-6">{{ user.email }}</p>
     <nav>
       <ul class="space-y-4">
         <li>
