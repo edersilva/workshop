@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import login, authenticate, logout, get_user_model
 from django.contrib import messages
 from django.urls import reverse
-from .forms import CustomUserCreationForm, LoginForm
+from django.contrib.auth.decorators import login_required
+from .forms import CustomUserCreationForm, LoginForm, UserProfileForm
+from .models import UserProfile
 
 def signup(request):
     if request.method == 'POST':
@@ -47,3 +49,25 @@ def logout_view(request):
     logout(request)
     messages.success(request, 'Logout realizado com sucesso!')
     return redirect('workshop_list')
+
+@login_required
+def edit_profile(request):
+    User = get_user_model()
+    user = get_object_or_404(User, username=request.user.username)
+    profile, created = UserProfile.objects.get_or_create(user=user)
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Perfil atualizado com sucesso!')
+            return redirect('profile')  # Redirect to profile page after successful update
+    else:
+        form = UserProfileForm(instance=profile)
+
+    context = {
+        'form': form,
+        'title': 'Editar Perfil',
+    }
+    
+    return render(request, 'accounts/edit.html', context)

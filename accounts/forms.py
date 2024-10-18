@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser
+from .models import CustomUser, UserProfile
 
 ESTADOS_CHOICES = [
     ('AC', 'Acre'), ('AL', 'Alagoas'), ('AP', 'Amapá'), ('AM', 'Amazonas'), ('BA', 'Bahia'),
@@ -51,3 +51,11 @@ class CustomUserCreationForm(UserCreationForm):
 class LoginForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs=COMMON_FIELD_ATTRS))
     password = forms.CharField(widget=forms.PasswordInput(attrs=COMMON_FIELD_ATTRS))
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['birth_date', 'gender', 'street', 'number', 'complement', 'neighborhood', 'city', 'state', 'zip_code']
+        widgets = {
+            'birth_date': forms.DateInput(attrs={'type': 'date'}),
+        }

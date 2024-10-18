@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
 class CustomUser(AbstractUser):
     # add any custom fields here
@@ -32,3 +33,18 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    birth_date = models.DateField(null=True, blank=True)
+    gender = models.CharField(max_length=10, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')], blank=True)
+    street = models.CharField(max_length=255, blank=True)
+    number = models.CharField(max_length=10, blank=True)
+    complement = models.CharField(max_length=255, blank=True)
+    neighborhood = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=255, blank=True)
+    state = models.CharField(max_length=2, blank=True)  # Assuming state abbreviations
+    zip_code = models.CharField(max_length=10, blank=True)
+
+    def __str__(self):
+        return self.user.username

@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 
 class Category(models.Model):
@@ -30,7 +31,7 @@ class Workshop(models.Model):
         return self.title
 
 class WorkshopFavorite(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='workshop_favorites')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='workshop_favorites')
     workshop = models.ForeignKey('Workshop', on_delete=models.CASCADE, related_name='favorites')
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -1,157 +1,200 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <div class="max-w-md mx-auto mt-10">
-    <form method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        {% csrf_token %}
-        
-        <!-- First Name -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.first_name.id_for_label }}">
-                Nome
-            </label>
-            {{ form.first_name }}
-        </div>
+  <form method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    {% csrf_token %}
 
-        <!-- Last Name -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.last_name.id_for_label }}">
-                Sobrenome
-            </label>
-            {{ form.last_name }}
-        </div>
+    <!-- First Name -->
+    <div class="mb-4">
+      <label
+        class="block text-gray-700 text-sm font-bold mb-2"
+        for="{{ form.first_name.id_for_label }}"
+      >
+        Nome
+      </label>
+      {{ form.first_name }}
+    </div>
 
-        <!-- Username -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.username.id_for_label }}">
-                Usuário
-            </label>
-            {{ form.username }}
-        </div>
+    <!-- Last Name -->
+    <div class="mb-4">
+      <label
+        class="block text-gray-700 text-sm font-bold mb-2"
+        for="{{ form.last_name.id_for_label }}"
+      >
+        Sobrenome
+      </label>
+      {{ form.last_name }}
+    </div>
 
-        <!-- Email -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.email.id_for_label }}">
-                Email
-            </label>
-            {{ form.email }}
-        </div>
+    <!-- Username -->
+    <div class="mb-4">
+      <label
+        class="block text-gray-700 text-sm font-bold mb-2"
+        for="{{ form.username.id_for_label }}"
+      >
+        Usuário
+      </label>
+      {{ form.username }}
+    </div>
 
-        <!-- Password -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.password1.id_for_label }}">
-                Senha
-            </label>
-            {{ form.password1 }}
-        </div>
+    <!-- Email -->
+    <div class="mb-4">
+      <label
+        class="block text-gray-700 text-sm font-bold mb-2"
+        for="{{ form.email.id_for_label }}"
+      >
+        Email
+      </label>
+      {{ form.email }}
+    </div>
 
-        <!-- Password Confirmation -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.password2.id_for_label }}">
-                Confirmar Senha
-            </label>
-            {{ form.password2 }}
-        </div>
+    <!-- Password -->
+    <div class="mb-4">
+      <label
+        class="block text-gray-700 text-sm font-bold mb-2"
+        for="{{ form.password1.id_for_label }}"
+      >
+        Senha
+      </label>
+      {{ form.password1 }}
+    </div>
 
-        <!-- Birth Date -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.birth_date.id_for_label }}">
-                Data de Nascimento
-            </label>
-            {{ form.birth_date }}
-        </div>
+    <!-- Password Confirmation -->
+    <div class="mb-4">
+      <label
+        class="block text-gray-700 text-sm font-bold mb-2"
+        for="{{ form.password2.id_for_label }}"
+      >
+        Confirmar Senha
+      </label>
+      {{ form.password2 }}
+    </div>
 
-        <!-- Gender -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.gender.id_for_label }}">
-                Sexo
-            </label>
-            {{ form.gender }}
-        </div>
+    <!-- Birth Date -->
+    <div class="mb-4">
+      <label
+        class="block text-gray-700 text-sm font-bold mb-2"
+        for="{{ form.birth_date.id_for_label }}"
+      >
+        Data de Nascimento
+      </label>
+      {{ form.birth_date }}
+    </div>
 
-        <!-- Zip Code -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.zip_code.id_for_label }}">
-                CEP
-            </label>
-            {{ form.zip_code }}
-            <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank" class="text-blue-500 hover:text-blue-700 text-sm">
-                <i class="fas fa-search"></i> Não sei o meu CEP
-            </a>
-        </div>
+    <!-- Gender -->
+    <div class="mb-4">
+      <label
+        class="block text-gray-700 text-sm font-bold mb-2"
+        for="{{ form.gender.id_for_label }}"
+      >
+        Sexo
+      </label>
+      {{ form.gender }}
+    </div>
 
-        <!-- Street -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.street.id_for_label }}">
-                Rua
-            </label>
-            {{ form.street }}
-        </div>
+    <!-- Zip Code -->
+    <div class="mb-4">
+      <label
+        class="block text-gray-700 text-sm font-bold mb-2"
+        for="{{ form.zip_code.id_for_label }}"
+      >
+        CEP
+      </label>
+      {{ form.zip_code }}
+      <a
+        href="https://buscacepinter.correios.com.br/app/endereco/index.php"
+        target="_blank"
+        class="text-blue-500 hover:text-blue-700 text-sm"
+      >
+        <i class="fas fa-search"></i> Não sei o meu CEP
+      </a>
+    </div>
 
-        <!-- Number -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.number.id_for_label }}">
-                Número
-            </label>
-            {{ form.number }}
-        </div>
+    <!-- Street -->
+    <div class="mb-4">
+      <label
+        class="block text-gray-700 text-sm font-bold mb-2"
+        for="{{ form.street.id_for_label }}"
+      >
+        Rua
+      </label>
+      {{ form.street }}
+    </div>
 
-        <!-- Neighborhood -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.neighborhood.id_for_label }}">
-                Bairro
-            </label>
-            {{ form.neighborhood }}
-        </div>
+    <!-- Number -->
+    <div class="mb-4">
+      <label
+        class="block text-gray-700 text-sm font-bold mb-2"
+        for="{{ form.number.id_for_label }}"
+      >
+        Número
+      </label>
+      {{ form.number }}
+    </div>
 
-        <!-- City -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.city.id_for_label }}">
-                Cidade
-            </label>
-            {{ form.city }}
-        </div>
+    <!-- Neighborhood -->
+    <div class="mb-4">
+      <label
+        class="block text-gray-700 text-sm font-bold mb-2"
+        for="{{ form.neighborhood.id_for_label }}"
+      >
+        Bairro
+      </label>
+      {{ form.neighborhood }}
+    </div>
 
-        <!-- Complement -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.complement.id_for_label }}">
-                Complemento
-            </label>
-            {{ form.complement }}
-        </div>
+    <!-- City -->
+    <div class="mb-4">
+      <label
+        class="block text-gray-700 text-sm font-bold mb-2"
+        for="{{ form.city.id_for_label }}"
+      >
+        Cidade
+      </label>
+      {{ form.city }}
+    </div>
 
-        <!-- State -->
-        <div class="mb-6">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.state.id_for_label }}">
-                Estado
-            </label>
-            {{ form.state }}
-        </div>
+    <!-- Complement -->
+    <div class="mb-4">
+      <label
+        class="block text-gray-700 text-sm font-bold mb-2"
+        for="{{ form.complement.id_for_label }}"
+      >
+        Complemento
+      </label>
+      {{ form.complement }}
+    </div>
 
-        <!-- Submit Button -->
-        <div class="flex items-center justify-between">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                Cadastrar
-            </button>
-        </div>
-    </form>
+    <!-- State -->
+    <div class="mb-6">
+      <label
+        class="block text-gray-700 text-sm font-bold mb-2"
+        for="{{ form.state.id_for_label }}"
+      >
+        Estado
+      </label>
+      {{ form.state }}
+    </div>
+
+    <!-- Submit Button -->
+    <div class="flex items-center justify-between">
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        type="submit"
+      >
+        Cadastrar
+      </button>
+    </div>
+  </form>
 </div>
-{% endblock %}
-
-{% block extra_js %}
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const zipCodeInput = document.getElementById('id_zip_code');
-        const streetInput = document.getElementById('id_street');
-        const neighborhoodInput = document.getElementById('id_neighborhood');
-        const cityInput = document.getElementById('id_city');
-        const stateInput = document.getElementById('id_state');
-        const birthDateInput = document.getElementById('id_birth_date');
-
-        // Configurar o campo de data de nascimento para aceitar apenas datas
-        birthDateInput.type = 'date';
-
-        // ... rest of the JavaScript ...
-    });
+  document.addEventListener("DOMContentLoaded", function () {
+    const zipCodeInput = document.getElementById("id_zip_code");
+    const streetInput = document.getElementById("id_street");
+    const neighborhoodInput = document.getElementById("id_neighborhood");
+    const cityInput = document.getElementById("id_city");
+    const stateInput = document.getElementById("id_state");
+    const birthDateInput = document.getElementById("id_birth_date");
+    birthDateInput.type = "date";
+  });
 </script>
-{% endblock %}
+{% endblock %} {% block extra_js %} {% endblock %}
