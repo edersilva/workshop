@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 
 class CustomUser(AbstractUser):
-    # add any custom fields here
     groups = models.ManyToManyField(
         'auth.Group',
         verbose_name='groups',
@@ -34,7 +33,7 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
-class UserProfile(models.Model):
+class UserProfile(AbstractUser):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     birth_date = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=10, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')], blank=True)

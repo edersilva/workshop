@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, LoginForm, UserProfileForm
-from .models import UserProfile
+from .models import UserProfile, CustomUser
 
 def signup(request):
     if request.method == 'POST':
@@ -53,8 +53,8 @@ def logout_view(request):
 @login_required
 def edit_profile(request):
     User = get_user_model()
-    user = get_object_or_404(User, username=request.user.username)
-    profile, created = UserProfile.objects.get_or_create(user=user)
+    user = get_object_or_404(CustomUser, username=request.user.username)
+    profile, created = CustomUser.objects.get_or_create(user=user)
 
     if request.method == 'POST':
         form = UserProfileForm(request.POST, instance=profile)
