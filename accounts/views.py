@@ -5,6 +5,8 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, LoginForm, UserProfileForm
 from .models import UserProfile, CustomUser
+from django.core.mail import send_mail
+from django.utils.crypto import get_random_string
 
 def signup(request):
     if request.method == 'POST':
@@ -71,3 +73,35 @@ def edit_profile(request):
     }
     
     return render(request, 'accounts/edit.html', context)
+
+def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        try:
+            user = CustomUser.objects.get(email=email)
+            # Gerar token único
+            token = get_random_string(length=32)
+            # Salvar token no perfil do usuário ou em um modelo separado
+            user.profile.reset_password_token = token
+            user.profile.save()
+            
+            # Enviar e-mail com link de recuperação
+            reset_link = request.build_absolute_uri(
+                reverse('reset_password', args=[token])
+            )
+            send_mail(
+                'Recuperação de Senha',
+                f'Clique no link para redefinir sua senha: {reset_link}',
+                'noreply@seusite.com',
+                [email],
+                fail_silently=False,
+            )
+            messages.success(request, 'Um e-mail com instruções foi enviado para você.')
+            return redirect('login')
+        except CustomUser.DoesNotExist:
+            messages.error(request, 'Não existe usuário com este e-mail.')
+    
+    context = {
+        'title': 'Esqueceu sua senha?',
+    }
+    return render(request, 'accounts/forgot-password.html', context)
