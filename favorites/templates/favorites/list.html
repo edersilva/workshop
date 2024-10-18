@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if favorites %}
+    <ul class="space-y-6">
+    {% for favorite in favorites %}
+        {% include 'workshop_card.html' with workshop=favorite.workshop %}
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Você ainda não tem favoritos.</p>
+{% endif %}
+{% endblock %}
+

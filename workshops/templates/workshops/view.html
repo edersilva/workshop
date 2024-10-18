@@ -74,22 +74,33 @@
     </div>
   </div>
 </div>
-{% endblock %} {% block extra_js %}
 <script>
   document.getElementById("favoriteBtn").addEventListener("click", function () {
     fetch("/api/favorite-workshop/{{ workshop.id }}/", {
       method: "POST",
       headers: {
         "X-CSRFToken": "{{ csrf_token }}",
+        "Content-Type": "application/json",
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
       .then((data) => {
         if (data.success) {
           this.querySelector("i").classList.toggle("text-red-500");
           this.querySelector("i").classList.toggle("text-gray-300");
         }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        // Optionally, show an error message to the user
       });
   });
 </script>
+{% endblock %} {% block extra_js %}
+
 {% endblock %}

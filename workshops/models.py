@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     id = models.AutoField(primary_key=True)
@@ -27,3 +28,11 @@ class Workshop(models.Model):
 
     def __str__(self):
         return self.title
+
+class WorkshopFavorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='workshop_favorites')
+    workshop = models.ForeignKey('Workshop', on_delete=models.CASCADE, related_name='favorites')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'workshop')
