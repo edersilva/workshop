@@ -1,0 +1,22 @@
+<form method="POST" action="{% url 'reviews:submit_review' workshop.id %}">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="comment">Comentário:</label>
+        <textarea class="form-control" id="comment" name="comment" rows="4" required></textarea>
+    </div>
+    
+    <div class="form-group">
+        <label for="rating">Avaliação:</label>
+        <select class="form-control" id="rating" name="rating" required>
+            <option value="">Selecione uma avaliação</option>
+            <option value="1">1 - Muito ruim</option>
+            <option value="2">2 - Ruim</option>
+            <option value="3">3 - Regular</option>
+            <option value="4">4 - Bom</option>
+            <option value="5">5 - Excelente</option>
+        </select>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Enviar avaliação</button>
+</form>

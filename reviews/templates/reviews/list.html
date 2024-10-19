@@ -1,25 +1,21 @@
-{% extends 'base.html' %}
-
-{% block content %}
 {% if reviews %}
-    <ul class="space-y-6">
-    {% for review in reviews %}
-    <li class="bg-white rounded-lg shadow-md overflow-hidden p-5">
-        <h2 class="text-xl font-semibold mb-2 text-gray-800">{{ review.workshop.title }}</h2>
-        <p class="text-sm text-gray-600 mb-2">
-            {% for i in "12345"|make_list %}
-                {% if forloop.counter <= review.rating %}
-                    <i class="fas fa-star text-yellow-400"></i>
-                {% else %}
-                    <i class="far fa-star text-yellow-400"></i>
-                {% endif %}
-            {% endfor %}
-        </p>
-        <p class="text-sm text-gray-600">Comentário: {{ review.comment }}</p>
-    </li>
-    {% endfor %}
-    </ul>
+<ul class="space-y-6">
+  {% for review in reviews %}
+  <li class="bg-white rounded-lg shadow-md overflow-hidden p-5">
+    <h2 class="text-xl font-semibold mb-2 text-gray-800">
+      {{ review.workshop.title }}
+    </h2>
+    <p class="text-sm text-gray-600 mb-2">
+      {% for i in "12345"|make_list %} {% if forloop.counter <= review.rating %}
+      <i class="fas fa-star text-yellow-400"></i>
+      {% else %}
+      <i class="far fa-star text-yellow-400"></i>
+      {% endif %} {% endfor %}
+    </p>
+    <p class="text-sm text-gray-600">Comentário: {{ review.comment }}</p>
+  </li>
+  {% endfor %}
+</ul>
 {% else %}
-    <p>Você ainda não tem certificados.</p>
+<p>Nenhum comentário encontrado</p>
 {% endif %}
-{% endblock %}

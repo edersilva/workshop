@@ -2,7 +2,7 @@
 {% if workshops %}
 <ul class="space-y-6">
   {% for workshop in workshops %}
-    {% include "workshop_card.html" with workshop=workshop %}
+    {% include "workshops/card.html" with workshop=workshop %}
   {% endfor %}
 </ul>
 {% else %}
