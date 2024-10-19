@@ -7,15 +7,37 @@ from .forms import CustomUserCreationForm, LoginForm, UserProfileForm
 from .models import UserProfile, CustomUser
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
+from django.contrib.auth.models import User
+from address.models import Address  # Importe o modelo Address
+from django.db import transaction
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.backends import ModelBackend
 
 def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, 'Conta criada com sucesso!')
-            return redirect('workshop_list')  # Alteração aqui
+            with transaction.atomic():
+                user = form.save()
+                
+                # Criar endereço
+                Address.objects.create(
+                    user=user,
+                    street=request.POST.get('street'),
+                    neighborhood=request.POST.get('neighborhood'),
+                    city=request.POST.get('city'),
+                    number=request.POST.get('number'),
+                    complement=request.POST.get('complement'),
+                    state=request.POST.get('state'),
+                    zipcode=request.POST.get('zipcode')
+                )
+                
+                # Autenticar o usuário
+                authenticated_user = authenticate(username=user.username, password=form.cleaned_data['password1'])
+                # Fazer login com o backend especificado
+                login(request, authenticated_user, backend='django.contrib.auth.backends.ModelBackend')
+                messages.success(request, 'Conta criada com sucesso!')
+                return redirect('workshop_list')
     else:
         form = CustomUserCreationForm()
     
@@ -54,24 +76,17 @@ def logout_view(request):
 
 @login_required
 def edit_profile(request):
-    User = get_user_model()
-    user = get_object_or_404(CustomUser, username=request.user.username)
-    profile, created = CustomUser.objects.get_or_create(user=user)
-
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, instance=profile)
+        form = UserProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Perfil atualizado com sucesso!')
-            return redirect('profile')  # Redirect to profile page after successful update
+            return redirect('accounts:edit_profile')  # Certifique-se de que este nome corresponda ao definido em urls.py
     else:
-        form = UserProfileForm(instance=profile)
-
-    context = {
-        'form': form,
-        'title': 'Editar Perfil',
-    }
-    
+        form = UserProfileForm(instance=request.user)
+        context = {
+            'form': form,
+            'title': 'Editar Perfil',
+        }
     return render(request, 'accounts/edit.html', context)
 
 def forgot_password(request):

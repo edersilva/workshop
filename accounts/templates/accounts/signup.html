@@ -1,200 +1,60 @@
 {% extends 'base.html' %} {% block content %}
 <div class="max-w-md mx-auto mt-10">
   <form method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-    {% csrf_token %}
-
-    <!-- First Name -->
+    {% csrf_token %} {% for field in form %}
     <div class="mb-4">
       <label
         class="block text-gray-700 text-sm font-bold mb-2"
-        for="{{ form.first_name.id_for_label }}"
+        for="{{ field.id_for_label }}"
       >
-        Nome
+        {{ field.label }}
       </label>
-      {{ form.first_name }}
+      {{ field }} {% if field.errors %} {% for error in field.errors %}
+      <p class="text-red-500 text-xs italic">{{ error }}</p>
+      {% endfor %} {% endif %}
     </div>
+    {% endfor %}
 
-    <!-- Last Name -->
-    <div class="mb-4">
-      <label
-        class="block text-gray-700 text-sm font-bold mb-2"
-        for="{{ form.last_name.id_for_label }}"
-      >
-        Sobrenome
-      </label>
-      {{ form.last_name }}
-    </div>
-
-    <!-- Username -->
-    <div class="mb-4">
-      <label
-        class="block text-gray-700 text-sm font-bold mb-2"
-        for="{{ form.username.id_for_label }}"
-      >
-        Usuário
-      </label>
-      {{ form.username }}
-    </div>
-
-    <!-- Email -->
-    <div class="mb-4">
-      <label
-        class="block text-gray-700 text-sm font-bold mb-2"
-        for="{{ form.email.id_for_label }}"
-      >
-        Email
-      </label>
-      {{ form.email }}
-    </div>
-
-    <!-- Password -->
-    <div class="mb-4">
-      <label
-        class="block text-gray-700 text-sm font-bold mb-2"
-        for="{{ form.password1.id_for_label }}"
-      >
-        Senha
-      </label>
-      {{ form.password1 }}
-    </div>
-
-    <!-- Password Confirmation -->
-    <div class="mb-4">
-      <label
-        class="block text-gray-700 text-sm font-bold mb-2"
-        for="{{ form.password2.id_for_label }}"
-      >
-        Confirmar Senha
-      </label>
-      {{ form.password2 }}
-    </div>
-
-    <!-- Birth Date -->
-    <div class="mb-4">
-      <label
-        class="block text-gray-700 text-sm font-bold mb-2"
-        for="{{ form.birth_date.id_for_label }}"
-      >
-        Data de Nascimento
-      </label>
-      {{ form.birth_date }}
-    </div>
-
-    <!-- Gender -->
-    <div class="mb-4">
-      <label
-        class="block text-gray-700 text-sm font-bold mb-2"
-        for="{{ form.gender.id_for_label }}"
-      >
-        Sexo
-      </label>
-      {{ form.gender }}
-    </div>
-
-    <!-- Zip Code -->
-    <div class="mb-4">
-      <label
-        class="block text-gray-700 text-sm font-bold mb-2"
-        for="{{ form.zip_code.id_for_label }}"
-      >
-        CEP
-      </label>
-      {{ form.zip_code }}
-      <a
-        href="https://buscacepinter.correios.com.br/app/endereco/index.php"
-        target="_blank"
-        class="text-blue-500 hover:text-blue-700 text-sm"
-      >
-        <i class="fas fa-search"></i> Não sei o meu CEP
-      </a>
-    </div>
-
-    <!-- Street -->
-    <div class="mb-4">
-      <label
-        class="block text-gray-700 text-sm font-bold mb-2"
-        for="{{ form.street.id_for_label }}"
-      >
-        Rua
-      </label>
-      {{ form.street }}
-    </div>
-
-    <!-- Number -->
-    <div class="mb-4">
-      <label
-        class="block text-gray-700 text-sm font-bold mb-2"
-        for="{{ form.number.id_for_label }}"
-      >
-        Número
-      </label>
-      {{ form.number }}
-    </div>
-
-    <!-- Neighborhood -->
-    <div class="mb-4">
-      <label
-        class="block text-gray-700 text-sm font-bold mb-2"
-        for="{{ form.neighborhood.id_for_label }}"
-      >
-        Bairro
-      </label>
-      {{ form.neighborhood }}
-    </div>
-
-    <!-- City -->
-    <div class="mb-4">
-      <label
-        class="block text-gray-700 text-sm font-bold mb-2"
-        for="{{ form.city.id_for_label }}"
-      >
-        Cidade
-      </label>
-      {{ form.city }}
-    </div>
-
-    <!-- Complement -->
-    <div class="mb-4">
-      <label
-        class="block text-gray-700 text-sm font-bold mb-2"
-        for="{{ form.complement.id_for_label }}"
-      >
-        Complemento
-      </label>
-      {{ form.complement }}
-    </div>
-
-    <!-- State -->
-    <div class="mb-6">
-      <label
-        class="block text-gray-700 text-sm font-bold mb-2"
-        for="{{ form.state.id_for_label }}"
-      >
-        Estado
-      </label>
-      {{ form.state }}
-    </div>
-
-    <!-- Submit Button -->
     <div class="flex items-center justify-between">
       <button
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="submit"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
       >
         Cadastrar
       </button>
     </div>
   </form>
 </div>
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const zipCodeInput = document.getElementById("id_zip_code");
+    const zipCodeInput = document.getElementById("id_zipcode");
     const streetInput = document.getElementById("id_street");
     const neighborhoodInput = document.getElementById("id_neighborhood");
     const cityInput = document.getElementById("id_city");
     const stateInput = document.getElementById("id_state");
-    const birthDateInput = document.getElementById("id_birth_date");
-    birthDateInput.type = "date";
+
+    if (zipCodeInput) {
+      zipCodeInput.addEventListener("blur", function () {
+        const zipCode = zipCodeInput.value.replace(/\D/g, "");
+        if (zipCode.length === 8) {
+          fetch(`https://viacep.com.br/ws/${zipCode}/json/`)
+            .then((response) => response.json())
+            .then((data) => {
+              if (!data.erro) {
+                if (streetInput) streetInput.value = data.logradouro;
+                if (neighborhoodInput) neighborhoodInput.value = data.bairro;
+                if (cityInput) cityInput.value = data.localidade;
+                if (stateInput) stateInput.value = data.uf;
+              }
+              id_number.focus();
+            })
+            .catch((error) => console.error("Erro ao buscar CEP:", error));
+        }
+      });
+    } else {
+      console.error("Campo de CEP não encontrado");
+    }
   });
 </script>
-{% endblock %} {% block extra_js %} {% endblock %}
+{% endblock %}

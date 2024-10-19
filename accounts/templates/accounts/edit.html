@@ -2,7 +2,6 @@
 
 {% block content %}
 <div class="max-w-md mx-auto mt-10">
-  <h2 class="text-2xl font-bold mb-6 text-center">Editar Perfil</h2>
   <form method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
     {% csrf_token %}
 
@@ -29,29 +28,13 @@
       </label>
       {{ form.email }}
     </div>
-
-    <!-- Birth Date -->
-    <div class="mb-4">
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.birth_date.id_for_label }}">
-        Data de Nascimento
-      </label>
-      {{ form.birth_date }}
-    </div>
-
-    <!-- Gender -->
-    <div class="mb-4">
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.gender.id_for_label }}">
-        Sexo
-      </label>
-      {{ form.gender }}
-    </div>
-
+    
     <!-- Zip Code -->
     <div class="mb-4">
       <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.zip_code.id_for_label }}">
         CEP
       </label>
-      {{ form.zip_code }}
+      {{ form.zipcode }}
       <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank" class="text-blue-500 hover:text-blue-700 text-sm">
         <i class="fas fa-search"></i> Não sei o meu CEP
       </a>
@@ -102,7 +85,11 @@
       <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.state.id_for_label }}">
         Estado
       </label>
-      {{ form.state }}
+      <select name="{{ form.state.name }}" id="{{ form.state.id_for_label }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        {% for value, label in form.fields.state.choices %}
+          <option value="{{ value }}" {% if form.state.value == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
     </div>
 
     <!-- Submit Button -->
