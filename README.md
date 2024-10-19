@@ -1,3 +1,11 @@
+
+Ativar o ambiente virtual
+source venv/bin/activate
+
+Instalar as dependências
+pip install -r requirements.txt
+
+
 Criar as migrações
 python manage.py makemigrations
 
