@@ -8,12 +8,16 @@ from address.models import Address  # Importe o modelo Address
 CustomUser = get_user_model()
 
 class Command(BaseCommand):
-    help = 'Creates 10 fake users with associated addresses'
+    help = 'Creates fake users with associated addresses'
+
+    def add_arguments(self, parser):
+        parser.add_argument('count', nargs='?', type=int, default=10, help='Number of users to create')
 
     def handle(self, *args, **options):
         fake = Faker('pt_BR')  # Using Brazilian Portuguese locale
+        count = options['count']
 
-        for _ in range(10):
+        for _ in range(count):
             username = fake.user_name()
             email = fake.email()
             password = fake.password()
@@ -74,4 +78,4 @@ class Command(BaseCommand):
 
             self.stdout.write(self.style.SUCCESS(f'Created user: {username} with address'))
 
-        self.stdout.write(self.style.SUCCESS('Successfully created 10 fake users with addresses'))
+        self.stdout.write(self.style.SUCCESS(f'Successfully created {count} fake users with addresses'))

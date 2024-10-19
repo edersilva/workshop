@@ -18,7 +18,7 @@ class Command(BaseCommand):
                 title=f"Prof. Dr. {fake.name()}",
                 email=fake.email(),
                 description=fake.text(max_nb_chars=500),
-                # Note: Faker doesn't generate actual image files, so we'll leave it blank
+                image=fake.image_url(),
             )
 
         self.stdout.write(self.style.SUCCESS(f'Successfully created {count} professors'))

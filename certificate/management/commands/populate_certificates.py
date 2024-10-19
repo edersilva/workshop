@@ -17,10 +17,14 @@ fake = Faker()
 class Command(BaseCommand):
     help = 'Populates the database with fake certificates'
 
-    def handle(self, *args, **options):
-        self.create_fake_certificates()
+    def add_arguments(self, parser):
+        parser.add_argument('count', nargs='?', type=int, default=10, help='Number of certificates to create')
 
-    def create_fake_certificates(self):
+    def handle(self, *args, **options):
+        count = options['count']
+        self.create_fake_certificates(count)
+
+    def create_fake_certificates(self, count):
         User = get_user_model()
         users = User.objects.all()
         workshops = Workshop.objects.all()
@@ -29,7 +33,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING("Certifique-se de que existem usuários e workshops no banco de dados."))
             return
 
-        for _ in range(10):
+        for _ in range(count):
             user = random.choice(users)
             workshop = random.choice(workshops)
             

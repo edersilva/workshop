@@ -1,17 +1,17 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
 from workshops.models import Workshop
-from favorites.models import Favorite
+from reviews.models import Review
 from django.utils import timezone
 import random
 
 User = get_user_model()
 
 class Command(BaseCommand):
-    help = 'Populates the database with fake favorites'
+    help = 'Populates the database with fake reviews'
 
     def add_arguments(self, parser):
-        parser.add_argument('count', nargs='?', type=int, default=10, help='Number of favorites to create')
+        parser.add_argument('count', nargs='?', type=int, default=10, help='Number of reviews to create')
 
     def handle(self, *args, **options):
         count = options['count']
@@ -26,18 +26,20 @@ class Command(BaseCommand):
             user = random.choice(users)
             workshop = random.choice(workshops)
             
-            favorite, created = Favorite.objects.get_or_create(
+            review, created = Review.objects.get_or_create(
                 user=user,
                 workshop=workshop,
                 defaults={
+                    'rating': random.randint(1, 5),
+                    'comment': f'This is a sample comment for {workshop.title}. It was great!',
                     'created_at': timezone.now(),
                     'updated_at': timezone.now(),
                 }
             )
 
             if created:
-                self.stdout.write(self.style.SUCCESS(f'Favorito criado: {user.username} - {workshop.title}'))
+                self.stdout.write(self.style.SUCCESS(f'Review criado: {user.username} - {workshop.title} - Rating: {review.rating}'))
             else:
-                self.stdout.write(self.style.WARNING(f'Favorito já existia: {user.username} - {workshop.title}'))
+                self.stdout.write(self.style.WARNING(f'Review já existia: {user.username} - {workshop.title}'))
 
-        self.stdout.write(self.style.SUCCESS(f'Processo de população de {count} favoritos concluído.'))
+        self.stdout.write(self.style.SUCCESS(f'Processo de população de {count} reviews concluído.'))

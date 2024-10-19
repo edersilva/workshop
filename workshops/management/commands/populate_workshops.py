@@ -21,8 +21,8 @@ class WorkshopFactory(factory.django.DjangoModelFactory):
     title = factory.LazyFunction(lambda: fake.sentence(nb_words=4))
     description = factory.LazyFunction(lambda: fake.paragraph(nb_sentences=3))
     short_description = factory.LazyFunction(lambda: fake.sentence(nb_words=10))
-    startdate = factory.LazyFunction(lambda: fake.date_time_between(start_date='+1d', end_date='+30d'))
-    enddate = factory.LazyFunction(lambda: fake.date_time_between(start_date='+31d', end_date='+60d'))
+    startdate = factory.LazyFunction(lambda: timezone.make_aware(fake.date_time_between(start_date='+1d', end_date='+30d')))
+    enddate = factory.LazyFunction(lambda: timezone.make_aware(fake.date_time_between(start_date='+31d', end_date='+60d')))
     image = factory.LazyFunction(lambda: fake.image_url())
 
     @factory.post_generation
@@ -46,7 +46,11 @@ class WorkshopFactory(factory.django.DjangoModelFactory):
         self.lessons.add(*selected_lessons)
 
 class Command(BaseCommand):
-    help = 'Creates up to 10 fake workshops with associated lessons and up to 5 categories'
+    help = 'Creates fake workshops with associated lessons and categories'
+
+    def add_arguments(self, parser):
+        parser.add_argument('num_workshops', nargs='?', type=int, default=10,
+                            help='Number of workshops to create (default: 10)')
 
     def handle(self, *args, **options):
         # Create categories
@@ -60,7 +64,7 @@ class Command(BaseCommand):
             return
 
         # Create workshops
-        num_workshops = random.randint(5, 10)
+        num_workshops = options['num_workshops']
         for _ in range(num_workshops):
             workshop = WorkshopFactory()
             self.stdout.write(self.style.SUCCESS(f'Created workshop: {workshop.title}'))
