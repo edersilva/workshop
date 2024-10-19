@@ -4,11 +4,11 @@
 {% if favorites %}
     <ul class="space-y-6">
     {% for favorite in favorites %}
-        {% include 'workshops/card.html' with workshop=favorite.workshop %}
+        {% include 'workshops/card.html' with workshop=favorite.workshop close_button=True %}
     {% endfor %}
     </ul>
 {% else %}
     <p>Você ainda não tem favoritos.</p>
 {% endif %}
+{% include "dialogs.html" %}
 {% endblock %}
-
