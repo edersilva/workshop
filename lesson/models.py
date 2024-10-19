@@ -18,24 +18,6 @@ class Lesson(models.Model):
     def __str__(self):
         return self.title
 
-    @classmethod
-    def create_fake_lessons(cls, num_lessons=10):
-        fake = Faker('pt_BR')
-        professors = list(Professor.objects.all())
-        
-        for _ in range(num_lessons):
-            lesson = cls(
-                title=fake.sentence(nb_words=4),
-                content=fake.paragraph(nb_sentences=5),
-                short_description=fake.sentence(),
-                video=f"https://www.youtube.com/watch?v={fake.lexify(text='?' * 11)}",
-                professor=random.choice(professors)
-            )
-            lesson.save()
-            
-            # Optionally, set an image (you might want to handle this differently)
-            # lesson.image.save(f"{slugify(lesson.title)}.jpg", ContentFile(get_random_image()), save=True)
-
     class Meta:
         verbose_name = 'Aula'
         verbose_name_plural = 'Aulas'

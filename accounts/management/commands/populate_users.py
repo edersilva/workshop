@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from faker import Faker
 import random
 from datetime import datetime, timedelta
+from address.models import Address  # Importe o modelo Address
 
 CustomUser = get_user_model()
 
@@ -61,6 +62,16 @@ class Command(BaseCommand):
 
             user.save()
 
-            self.stdout.write(self.style.SUCCESS(f'Created user: {username}'))
+            # Criar endereço associado
+            address = Address.objects.create(
+                user=user,
+                city=city,
+                state=state,
+                neighborhood=neighborhood,
+                street=street,
+                number=number
+            )
+
+            self.stdout.write(self.style.SUCCESS(f'Created user: {username} with address'))
 
         self.stdout.write(self.style.SUCCESS('Successfully created 10 fake users with addresses'))
