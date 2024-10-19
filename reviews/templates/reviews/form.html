@@ -1,22 +1,50 @@
-<form method="POST" action="{% url 'reviews:submit_review' workshop.id %}">
+<div class="mx-auto mt-10">
+  <form
+    class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+    method="POST"
+    action="{% url 'reviews:submit_review' workshop.id %}"
+  >
     {% csrf_token %}
-    
-    <div class="form-group">
-        <label for="comment">Comentário:</label>
-        <textarea class="form-control" id="comment" name="comment" rows="4" required></textarea>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="comment">
+        Comentário:
+      </label>
+      <textarea
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="comment"
+        name="comment"
+        rows="4"
+        required
+      ></textarea>
     </div>
-    
-    <div class="form-group">
-        <label for="rating">Avaliação:</label>
-        <select class="form-control" id="rating" name="rating" required>
-            <option value="">Selecione uma avaliação</option>
-            <option value="1">1 - Muito ruim</option>
-            <option value="2">2 - Ruim</option>
-            <option value="3">3 - Regular</option>
-            <option value="4">4 - Bom</option>
-            <option value="5">5 - Excelente</option>
-        </select>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="rating">
+        Avaliação:
+      </label>
+      <select
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="rating"
+        name="rating"
+        required
+      >
+        <option value="">Selecione uma avaliação</option>
+        <option value="1">1 - Muito ruim</option>
+        <option value="2">2 - Ruim</option>
+        <option value="3">3 - Regular</option>
+        <option value="4">4 - Bom</option>
+        <option value="5">5 - Excelente</option>
+      </select>
     </div>
-    
-    <button type="submit" class="btn btn-primary">Enviar avaliação</button>
-</form>
+
+    <div class="flex items-center justify-between">
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        type="submit"
+      >
+        Enviar comentário
+      </button>
+    </div>
+  </form>
+</div>
