@@ -143,6 +143,11 @@ MEDIA_URL = '/media/'
 
 #AUTH_USER_MODEL = 'accounts.CustomUser'
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'accounts.backends.EmailBackend',  # Seu backend personalizado para autenticação por email
+]
+
 # Configurações de e-mail
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'seu_servidor_smtp.com'
