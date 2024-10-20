@@ -1,20 +1,31 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
 
-{% block content %}
-<h1>{{ lesson.title }}</h1>
-<p>Professor(a): {{ lesson.professor.title }}</p>
-<p>{{ lesson.content }}</p>
-{% if lesson.workshops.all %}
-    <h2 class="text-xl font-semibold mt-6 mb-4">Outras aulas deste workshop:</h2>
-    <div class="flex-1 gap-4">
-        {% for workshop in lesson.workshops.all %}
-            {% for related_lesson in workshop.lessons.all %}
-                {% if related_lesson != lesson %}
-                    {% include 'lesson/lessons.html' with lesson=related_lesson workshop=workshop %}
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
-    </div>
+{% if lesson.video %}
+<iframe
+  width="100%"
+  height="500"
+  src="{{ lesson.video }}"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen
+  class="mb-8"
+></iframe>
 {% endif %}
 
-{% endblock %}
+<h1 class="text-3xl font-bold mb-4">{{ lesson.title }}</h1>
+<p class="text-lg">Professor(a): {{ lesson.professor.title }}</p>
+<p>{{ lesson.content }}</p>
+
+<div class="fixed bottom-0 left-0 right-0 w-full">
+  <a href="#" class="block bg-blue-500 py-5 text-center hover:bg-blue-600 text-white font-bold focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">Concluir aula</a>
+</div>
+
+{% if workshop.lessons.all %}
+<h2 class="text-xl font-semibold pt-20 mb-4">Outras aulas deste workshop:</h2>
+<div class="flex-1 gap-4">
+  {% for lesson in workshop.lessons.all %} {% include 'lesson/lessons.html' %}
+  {% endfor %}
+</div>
+{% endif %} {% endblock %}
