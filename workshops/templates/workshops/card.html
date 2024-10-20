@@ -22,6 +22,9 @@
                 </div>
             </div>
         </div>
+        {% if workshop.id in is_joined %}
+        {% include 'joined.html' %}
+        {% endif %}
     </a>
     {% if close_button %}
     <div class="flex items-center ml-4">

@@ -4,9 +4,11 @@ from django.db.models import Avg
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Workshop, WorkshopFavorite, JoinWorkshop
 
-class WorkshopListView(ListView):
+
+class WorkshopListView(LoginRequiredMixin, ListView):
     model = Workshop
     template_name = 'workshops/list.html'
     context_object_name = 'workshops'
@@ -19,6 +21,11 @@ class WorkshopListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Workshops'
+        
+        # Get the workshops the user has joined
+        user_joined_workshops = JoinWorkshop.objects.filter(user=self.request.user).values_list('workshop_id', flat=True)
+        context['user_joined'] = user_joined_workshops
+        
         return context
 
 class WorkshopDetailView(DetailView):
@@ -72,6 +79,7 @@ def join_workshop(request, workshop_id):
 
 def is_user_joined(user, workshop):
     return JoinWorkshop.objects.filter(user=user, workshop=workshop).exists()
+
 
 
 
