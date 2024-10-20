@@ -1,5 +1,8 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Lesson
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
+from .models import Lesson, LessonCompleted
 from workshops.models import Workshop
 
 def view_lesson(request, workshop_id, lesson_id):
@@ -8,7 +11,22 @@ def view_lesson(request, workshop_id, lesson_id):
     
     context = {
         'lesson': lesson,
+        'is_completed': is_lesson_completed(request.user, lesson, workshop),
         'workshop': workshop,
         'workshop_title': workshop.title,
     }
     return render(request, 'lesson/view.html', context)
+
+@require_POST
+@login_required
+def complete_lesson(request, workshop_id, lesson_id):
+    try:
+        lesson = get_object_or_404(Lesson, id=lesson_id)
+        lesson_completed, created = LessonCompleted.objects.get_or_create(user=request.user, lesson=lesson, workshop_id=workshop_id)
+        return JsonResponse({'success': True})
+    except Lesson.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Lesson not found'}, status=404)
+
+def is_lesson_completed(user, lesson, workshop):
+    return LessonCompleted.objects.filter(user=user, lesson=lesson, workshop=workshop).exists()
+

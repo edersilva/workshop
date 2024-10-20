@@ -1,5 +1,7 @@
 from django.db import models
 from professor.models import Professor
+from workshops.models import Workshop
+from django.contrib.auth.models import User
 from django.utils.text import slugify
 from faker import Faker
 import random
@@ -21,3 +23,12 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = 'Aula'
         verbose_name_plural = 'Aulas'
+
+class LessonCompleted(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    workshop = models.ForeignKey(Workshop, on_delete=models.CASCADE)
+    completed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.lesson.title}"

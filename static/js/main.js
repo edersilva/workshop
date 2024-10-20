@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
       button.addEventListener("click", async () => {
         const workshopId = button.getAttribute("data-content-id");
         try {
-          const response = await fetch(`/api/join-workshop/${workshopId}/`, {
+          const response = await fetch(`/workshop/join/${workshopId}/`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -137,6 +137,35 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   }
+
+  const completeLessonBtn = document.querySelectorAll(".btn-complete-lesson");
+  completeLessonBtn.forEach((button) => {
+    button.addEventListener("click", async () => {
+      const lessonId = button.getAttribute("data-content-id");
+      const workshopId = button.getAttribute("data-workshop-id");
+      try {
+        const response = await fetch(`/lesson/complete/${workshopId}/${lessonId}/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken"),
+          },
+        });
+        if (response.ok) {
+          console.log("Aula concluída com sucesso");
+          window.location.reload();
+        } else {
+          throw new Error("Falha ao concluir aula");
+        }
+      } catch (error) {
+        console.error("Erro ao concluir aula:", error);
+        alert(
+          error.message ||
+            "Ocorreu um erro ao tentar concluir a aula. Por favor, tente novamente."
+        );
+      }
+    });
+  });
 
   // Função auxiliar para obter o valor do cookie CSRF
   function getCookie(name) {

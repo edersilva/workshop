@@ -16,10 +16,13 @@
 <p class="text-lg">Professor(a): {{ lesson.professor.title }}</p>
 <p>{{ lesson.content }}</p>
 
-{% include 'btn-actions.html' with type='complete-lesson' title='Concluir aula' id=lesson.id %} {% if workshop.lessons.all %}
+{% if not is_completed %}
+{% include 'btn-actions.html' with type='complete-lesson' title='Concluir aula' id=lesson.id workshop_id=workshop.id %} 
+{% endif %}
+
 <h2 class="text-xl font-semibold pt-20 mb-4">Outras aulas deste workshop:</h2>
-<div class="flex-1 gap-4">
-  {% for lesson in workshop.lessons.all %} {% include 'lesson/lessons.html' %}
+<ul class="flex-1 gap-4">
+  {% for lesson in workshop.lessons.all %} {% include 'lesson/lessons.html' with status=is_completed %}
   {% endfor %}
-</div>
-{% endif %} {% endblock %}
+</ul>
+{% endblock %}
