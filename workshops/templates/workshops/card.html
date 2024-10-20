@@ -25,7 +25,7 @@
     </a>
     {% if close_button %}
     <div class="flex items-center ml-4">
-        <button class="btn-delete bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 text-sm rounded">
+        <button data-favorite-id="{{ workshop.id }}" class="btn-delete bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 text-sm rounded">
             Excluir
         </button>
     </div>

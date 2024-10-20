@@ -44,17 +44,17 @@
           >
         </li>
         <li>
-          <a href="{% url 'list_favorites' %}" class="flex items-center"
+          <a href="{% url 'favorites:list_favorites' %}" class="flex items-center"
             ><i class="fas fa-star w-8"></i> Favoritos</a
           >
         </li>
         <li>
-          <a href="{% url 'list_certificates' %}" class="flex items-center"
+          <a href="/certificados" class="flex items-center"
             ><i class="fas fa-certificate w-8"></i> Certificados</a
           >
         </li>
         <li>
-          <a href="/comentarios" class="flex items-center"
+          <a href="{% url 'reviews:list_reviews' %}" class="flex items-center"
             ><i class="fas fa-comments w-8"></i> Comentários</a
           >
         </li>
