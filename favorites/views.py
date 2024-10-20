@@ -16,7 +16,7 @@ def list_favorites(request):
     }
     return render(request, 'favorites/list.html', context)
 
-#@login_required
+@login_required
 @require_http_methods(["DELETE"])
 def delete_favorite(request, favorite_id):
     try:

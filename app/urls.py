@@ -9,7 +9,7 @@ urlpatterns = [
     path('workshops/', include('workshops.urls')),
     path('', include('favorites.urls')),
     path('certificados/', include('certificate.urls')),
-    path('comentarios/', include('reviews.urls')),
+    path('', include('reviews.urls')),
     path('accounts/', include('accounts.urls')),
     path('', include('lesson.urls')),
     path('', include('reviews.urls')),
