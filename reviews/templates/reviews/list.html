@@ -4,7 +4,7 @@
 {% endif %}
 <ul class="space-y-6">
   {% for review in reviews %}
-  <li class="bg-white rounded-lg shadow-md overflow-hidden flex p-5">
+  <li data-content-item-id="{{ review.id }}" class="bg-white rounded-lg shadow-md overflow-hidden flex p-5">
     <div class="flex w-full">
         <div class="flex-1 ml-5 items-start">
             <h2 class="text-xl font-semibold mb-2 text-gray-800">

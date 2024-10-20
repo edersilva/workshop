@@ -1,4 +1,4 @@
-<li class="bg-white rounded-lg shadow-md overflow-hidden flex p-5">
+<li data-content-item-id="{{ favorite.id }}" class="bg-white rounded-lg shadow-md overflow-hidden flex p-5">
     <a href="{% url 'workshop_detail' workshop.id %}" class="flex w-full">
         <div class="flex flex-1 gap-10">
             {% if workshop.image %}
