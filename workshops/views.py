@@ -4,7 +4,7 @@ from django.db.models import Avg
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from .models import Workshop, WorkshopFavorite
+from .models import Workshop, WorkshopFavorite, JoinWorkshop
 
 class WorkshopListView(ListView):
     model = Workshop
@@ -30,6 +30,7 @@ class WorkshopDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.title
         context['reviews'] = self.object.review_set.all()
+        context['is_joined'] = is_user_joined(self.request.user, self.object)
         return context
 
 def view_workshop(request, workshop_id):
@@ -57,3 +58,20 @@ def favorite_workshop(request, workshop_id):
         return JsonResponse({'success': True, 'is_favorite': is_favorite})
     except Workshop.DoesNotExist:
         return JsonResponse({'success': False, 'error': 'Workshop not found'}, status=404)
+
+
+@require_POST
+@login_required
+def join_workshop(request, workshop_id):
+    try:
+        workshop = Workshop.objects.get(id=workshop_id)
+        join, created = JoinWorkshop.objects.get_or_create(user=request.user, workshop=workshop)
+        return JsonResponse({'success': True})
+    except Workshop.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Workshop not found'}, status=404)
+
+def is_user_joined(user, workshop):
+    return JoinWorkshop.objects.filter(user=user, workshop=workshop).exists()
+
+
+

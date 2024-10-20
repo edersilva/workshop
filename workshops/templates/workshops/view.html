@@ -81,7 +81,7 @@
         <h2 class="text-2xl font-bold mb-4">Aulas</h2>
         <div class="flex-1 gap-4">
           {% for lesson in workshop.lessons.all %}
-          {% include 'lesson/lessons.html' %}
+          {% include 'lesson/lessons.html' with joined=is_joined %}
           {% endfor %}
         </div>
       </div>
@@ -97,39 +97,21 @@
           
         </div>
         {% endfor %}
-        {% include 'reviews/list.html' with workshop=workshop %}
-        {% include 'reviews/form.html' with workshop=workshop %}
+          
+          {% include 'reviews/list.html' with workshop=workshop %}
+          {% if is_joined %}
+            {% include 'reviews/form.html' with workshop=workshop %}
+          {% endif %}
       </div>
     </div>
+    
   </div>
+  
+  {% if not is_joined %}
+    {% include 'btn-actions.html' with type='join-workshop' title='Inscrever-se' id=workshop.id %}
+  {% endif %}
 </div>
-<script>
-  document.getElementById("favoriteBtn").addEventListener("click", function () {
-    fetch("/api/favorite-workshop/{{ workshop.id }}/", {
-      method: "POST",
-      headers: {
-        "X-CSRFToken": "{{ csrf_token }}",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data.success) {
-          this.querySelector("i").classList.toggle("text-red-500");
-          this.querySelector("i").classList.toggle("text-gray-300");
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        // Optionally, show an error message to the user
-      });
-  });
-</script>
+
 {% endblock %} {% block extra_js %}
 
 {% endblock %}

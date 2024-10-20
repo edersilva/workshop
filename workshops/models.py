@@ -37,3 +37,13 @@ class WorkshopFavorite(models.Model):
 
     class Meta:
         unique_together = ('user', 'workshop')
+
+class JoinWorkshop(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='join_workshops')
+    workshop = models.ForeignKey('Workshop', on_delete=models.CASCADE, related_name='join_workshops')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Inscritos'
+        verbose_name_plural = 'Inscritos'
+        unique_together = ('user', 'workshop')
