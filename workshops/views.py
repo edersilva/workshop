@@ -28,6 +28,26 @@ class WorkshopListView(LoginRequiredMixin, ListView):
         
         return context
 
+class WorkshopAccountListView(LoginRequiredMixin, ListView):
+    model = Workshop
+    template_name = 'workshops/account_list.html'
+    context_object_name = 'workshops'
+
+    def get_queryset(self):
+        return Workshop.objects.annotate(
+            avg_rating=Avg('review__rating')
+        ).order_by('-startdate')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Meus Workshops'
+        
+        # Get the workshops the user has joined
+        user_joined_workshops = JoinWorkshop.objects.filter(user=self.request.user).values_list('workshop_id', flat=True)
+        context['user_joined'] = user_joined_workshops
+        
+        return context
+
 class WorkshopDetailView(DetailView):
     model = Workshop
     template_name = 'workshops/view.html'
