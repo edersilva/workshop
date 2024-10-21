@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Workshop, WorkshopFavorite, JoinWorkshop
+from .models import Workshop, JoinWorkshop
 
 
 class WorkshopListView(LoginRequiredMixin, ListView):
@@ -47,25 +47,6 @@ def view_workshop(request, workshop_id):
         'workshop_title': workshop.title,
     }
     return render(request, 'workshop/view.html', context)
-
-@require_POST
-@login_required
-def favorite_workshop(request, workshop_id):
-    try:
-        workshop = Workshop.objects.get(id=workshop_id)
-        favorite, created = WorkshopFavorite.objects.get_or_create(user=request.user, workshop=workshop)
-        
-        if not created:
-            # If it wasn't created, it already existed, so we'll delete it
-            favorite.delete()
-            is_favorite = False
-        else:
-            is_favorite = True
-
-        return JsonResponse({'success': True, 'is_favorite': is_favorite})
-    except Workshop.DoesNotExist:
-        return JsonResponse({'success': False, 'error': 'Workshop not found'}, status=404)
-
 
 @require_POST
 @login_required

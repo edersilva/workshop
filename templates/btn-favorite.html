@@ -1,0 +1,8 @@
+<button
+  class="btn-favorite text-2xl focus:outline-none"
+  data-content-id="{{ id }}"
+>
+  <i
+    class="fas fa-heart {% if workshop.is_favorite %}text-red-500{% else %}text-gray-300{% endif %}"
+  ></i>
+</button>

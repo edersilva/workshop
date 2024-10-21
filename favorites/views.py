@@ -30,3 +30,17 @@ def delete_favorite(request, favorite_id):
     except Exception as e:
         logger.error(f"Erro ao deletar favorito {favorite_id}: {str(e)}")
         return JsonResponse({'error': f'Erro ao deletar favorito: {str(e)}'}, status=500)
+    
+@login_required
+@require_http_methods(["POST"])
+def favorite(request, workshop_id):
+    try:
+        favorite = Favorite.objects.get(user=request.user, workshop_id=workshop_id)
+        favorite.delete()
+        return JsonResponse({'message': 'Favorito deletado com sucesso.'}, status=200)
+    except Favorite.DoesNotExist:
+        Favorite.objects.create(user=request.user, workshop_id=workshop_id)
+        return JsonResponse({'message': 'Favorito criado com sucesso.'}, status=201)
+    except Exception as e:
+        logger.error(f"Erro ao favoritar workshop {workshop_id}: {str(e)}")
+        return JsonResponse({'error': f'Erro ao favoritar workshop: {str(e)}'}, status=500)

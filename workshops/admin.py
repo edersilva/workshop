@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Workshop, Category, WorkshopFavorite, JoinWorkshop
+from .models import Workshop, Category, JoinWorkshop
 
 class WorkshopAdmin(admin.ModelAdmin):
     list_display = ('title', 'description', 'startdate', 'enddate')
@@ -10,10 +10,6 @@ class WorkshopAdmin(admin.ModelAdmin):
 class CategoriesAdmin(admin.ModelAdmin):
     list_display = ('title',)
     search_fields = ('title',)
-
-class WorkshopFavoriteAdmin(admin.ModelAdmin):
-    list_display = ('user', 'workshop')
-    search_fields = ('user__first_name', 'workshop__title')
 
 class JoinWorkshopAdmin(admin.ModelAdmin):
     list_display = ('user', 'workshop')

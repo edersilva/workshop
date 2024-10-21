@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
         try {
-          const response = await fetch(`/api/${type}/${contentId}/`, {
+          const response = await fetch(`/${type}/delete/${contentId}/`, {
             method: "DELETE",
             headers: {
               "Content-Type": "application/json",
@@ -137,6 +137,34 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   }
+
+  const favoriteWorkshopBtn = document.querySelectorAll(".btn-favorite");
+  favoriteWorkshopBtn.forEach((button) => {
+    button.addEventListener("click", async () => {
+      const workshopId = button.getAttribute("data-content-id");
+      try {
+        const response = await fetch(`/favorites/add/${workshopId}/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken"),
+          },
+        });
+        if (response.ok) {
+          console.log("Workshop favoritado com sucesso");
+          window.location.reload();
+        } else {
+          throw new Error("Falha ao favoritar workshop");
+        }
+      } catch (error) {
+        console.error("Erro ao favoritar workshop:", error);
+        alert(
+          error.message ||
+            "Ocorreu um erro ao tentar favoritar o workshop. Por favor, tente novamente."
+        );
+      }
+    });
+  });
 
   const completeLessonBtn = document.querySelectorAll(".btn-complete-lesson");
   completeLessonBtn.forEach((button) => {

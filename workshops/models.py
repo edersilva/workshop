@@ -30,14 +30,6 @@ class Workshop(models.Model):
     def __str__(self):
         return self.title
 
-class WorkshopFavorite(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='workshop_favorites')
-    workshop = models.ForeignKey('Workshop', on_delete=models.CASCADE, related_name='favorites')
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ('user', 'workshop')
-
 class JoinWorkshop(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='join_workshops')
     workshop = models.ForeignKey('Workshop', on_delete=models.CASCADE, related_name='join_workshops')

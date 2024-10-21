@@ -19,3 +19,11 @@ class Favorite(models.Model):
             return False, "Favorito não encontrado ou não pertence ao usuário."
         except Exception as e:
             return False, f"Erro ao deletar favorito: {str(e)}"
+        
+    @classmethod
+    def favorite(cls, user_id, workshop_id):
+        try:
+            Favorite.objects.create(user_id=user_id, workshop_id=workshop_id)
+            return True, "Favorito criado com sucesso."
+        except Exception as e:
+            return False, f"Erro ao criar favorito: {str(e)}"

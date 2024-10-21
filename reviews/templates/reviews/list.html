@@ -7,7 +7,7 @@
   <li data-content-item-id="{{ review.id }}" class="bg-white rounded-lg shadow-md overflow-hidden flex p-5">
     <div class="flex w-full">
         <div class="flex-1 ml-5 items-start">
-            <h2 class="text-xl font-semibold mb-2 text-gray-800">
+            <h2 class="text-xl font-semibold text-gray-800 mb-3">
             {{ review.user.first_name }}
             </h2>
             <p class="text-sm text-gray-600 mb-2">
@@ -17,7 +17,10 @@
             <i class="far fa-star text-yellow-400"></i>
             {% endif %} {% endfor %}
             </p>
-            <p class="text-sm text-gray-600">Comentário: {{ review.comment }}</p>
+            {% if is_view_template %}
+            <p class="text-gray-500 mb-1 block">Workshop: {{ review.workshop.title }}</p>
+            {% endif %}
+            <p class="text-gray-500">{{ review.comment }}</p>
         </div>
     </div>
 
