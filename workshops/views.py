@@ -59,7 +59,23 @@ class WorkshopDetailView(DetailView):
         context['reviews'] = self.object.review_set.all()
         context['is_joined'] = is_user_joined(self.request.user, self.object)
         context['status'] = has_user_completed_workshop(self.request.user, self.object)
+        context['all_lessons_completed'] = has_user_completed_all_lessons(self.request.user, self.object)
+        context['progress_percentage'] = calculate_user_workshop_progress(self.request.user, self.object)
         return context
+
+def calculate_user_workshop_progress(user, workshop):
+    total_lessons = workshop.lessons.count()
+    if total_lessons == 0:
+        return 0  # Avoid division by zero if there are no lessons
+    
+    completed_lessons = LessonCompleted.objects.filter(
+        user=user, 
+        workshop=workshop, 
+        lesson__in=workshop.lessons.all()
+    ).count()
+    
+    progress_percentage = (completed_lessons / total_lessons) * 100
+    return round(progress_percentage)  # Round to one decimal place
 
 def view_workshop(request, workshop_id):
     workshop = get_object_or_404(Workshop, id=workshop_id)
@@ -83,6 +99,10 @@ def is_user_joined(user, workshop):
     return JoinWorkshop.objects.filter(user=user, workshop=workshop).exists()
 
 def has_user_completed_workshop(user, workshop):
-    total_lessons = workshop.lessons.count()
     completed_lessons = LessonCompleted.objects.filter(user=user, workshop=workshop, lesson__in=workshop.lessons.all())
     return completed_lessons.values_list('lesson_id', flat=True)
+
+def has_user_completed_all_lessons(user, workshop):
+    total_lessons = workshop.lessons.count()
+    completed_lessons = LessonCompleted.objects.filter(user=user, workshop=workshop, lesson__in=workshop.lessons.all()).count()
+    return total_lessons == completed_lessons
