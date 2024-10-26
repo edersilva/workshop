@@ -27,6 +27,7 @@ class Command(BaseCommand):
     def create_fake_certificates(self, count):
         User = get_user_model()
         users = User.objects.all()
+        certificates = Certificate.objects.all()
         workshops = Workshop.objects.all()
 
         if not users or not workshops:
@@ -35,6 +36,7 @@ class Command(BaseCommand):
 
         for _ in range(count):
             user = random.choice(users)
+            certificate = random.choice(certificates)
             workshop = random.choice(workshops)
             
             # Verifica se o favorito já existe para evitar duplicatas

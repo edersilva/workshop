@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Certificado de Conclusão{% endblock %}
+
+{% block content %}
+{% if workshop %}
+<div class="bg-white border-8 border-blue-200 p-8 m-4 max-w-2xl w-full shadow-lg">
+    <div class="text-center">
+        <h1 class="text-4xl font-bold text-blue-800 mb-4">Certificado de Conclusão</h1>
+        <p class="text-xl mb-8">Este certificado é concedido a</p>
+        <h2 class="text-3xl font-semibold text-gray-800 mb-8">{{ full_name }}</h2>
+        <p class="text-xl mb-8">por ter concluído com sucesso o curso de</p>
+        <h3 class="text-2xl font-bold text-blue-700 mb-8">{{ workshop.title }}</h3>
+        <div class="border-t-2 border-gray-300 pt-8">
+            <p class="text-lg font-semibold">Assinatura do Diretor</p>
+            <p class="text-sm text-gray-600 mt-2">Instituto de Tecnologia XYZ</p>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 m-4 max-w-2xl w-full" role="alert">
+    <p class="font-bold">Erro</p>
+    <p>Você ainda não concluiu este Workshop. O certificado não está disponível.</p>
+</div>
+{% endif %}
+{% endblock %}
