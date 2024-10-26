@@ -1,12 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
-from django.db.models import Avg
+from django.db.models import Avg, Count
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Workshop, JoinWorkshop
-
+from lesson.models import LessonCompleted, Lesson
 
 class WorkshopListView(LoginRequiredMixin, ListView):
     model = Workshop
@@ -58,6 +58,7 @@ class WorkshopDetailView(DetailView):
         context['title'] = self.object.title
         context['reviews'] = self.object.review_set.all()
         context['is_joined'] = is_user_joined(self.request.user, self.object)
+        context['status'] = has_user_completed_workshop(self.request.user, self.object)
         return context
 
 def view_workshop(request, workshop_id):
@@ -81,6 +82,7 @@ def join_workshop(request, workshop_id):
 def is_user_joined(user, workshop):
     return JoinWorkshop.objects.filter(user=user, workshop=workshop).exists()
 
-
-
-
+def has_user_completed_workshop(user, workshop):
+    total_lessons = workshop.lessons.count()
+    completed_lessons = LessonCompleted.objects.filter(user=user, workshop=workshop, lesson__in=workshop.lessons.all())
+    return completed_lessons.values_list('lesson_id', flat=True)
