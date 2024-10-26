@@ -55,25 +55,33 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(attrs=COMMON_FIELD_ATTRS))
 
 class UserProfileForm(forms.ModelForm):
-    zipcode = forms.CharField(max_length=8, required=True)
-    state = forms.ChoiceField(choices=ESTADOS_CHOICES, required=True)
+    street = forms.CharField(max_length=255, required=False)
+    neighborhood = forms.CharField(max_length=255, required=False)
+    city = forms.CharField(max_length=255, required=False)
+    number = forms.CharField(max_length=10, required=False)
+    complement = forms.CharField(max_length=255, required=False)
+    state = forms.CharField(max_length=2, required=False)
+    zipcode = forms.CharField(max_length=10, required=False)
 
     class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email']
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'email', 'street', 'neighborhood', 'city', 'number', 'complement', 'state', 'zipcode']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.instance:
-            # Preencher os campos de endereço
-            if hasattr(self.instance, 'address'):
-                address = self.instance.address
-                self.fields['zipcode'].initial = address.zipcode
-                self.fields['state'].initial = address.state
-                for field in Address._meta.fields:
-                    if field.name not in ['id', 'user', 'zipcode', 'state']:
-                        self.fields[field.name] = forms.CharField(required=False)
-                        self.initial[field.name] = getattr(address, field.name)
+            try:
+                address = self.instance.address_set.first()
+                if address:
+                    self.fields['street'].initial = address.street
+                    self.fields['neighborhood'].initial = address.neighborhood
+                    self.fields['city'].initial = address.city
+                    self.fields['number'].initial = address.number
+                    self.fields['complement'].initial = address.complement
+                    self.fields['state'].initial = address.state
+                    self.fields['zipcode'].initial = address.zipcode
+            except Address.DoesNotExist:
+                pass
 
     def save(self, commit=True):
         user = super().save(commit=False)

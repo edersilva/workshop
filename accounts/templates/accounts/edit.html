@@ -2,118 +2,35 @@
 
 {% block content %}
 <div class="max-w-md mx-auto mt-10">
+  {% if messages %}
+    {% include 'success.html' %}
+  {% endif %}
+
   <form method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
     {% csrf_token %}
-
-    <!-- First Name -->
-    <div class="mb-4">
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.first_name.id_for_label }}">
-        Nome
-      </label>
-      {{ form.first_name }}
-    </div>
-
-    <!-- Last Name -->
-    <div class="mb-4">
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.last_name.id_for_label }}">
-        Sobrenome
-      </label>
-      {{ form.last_name }}
-    </div>
-
-    <!-- Email -->
-    <div class="mb-4">
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.email.id_for_label }}">
-        Email
-      </label>
-      {{ form.email }}
-    </div>
     
-    <!-- Zip Code -->
-    <div class="mb-4">
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.zip_code.id_for_label }}">
-        CEP
-      </label>
-      {{ form.zipcode }}
-      <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank" class="text-blue-500 hover:text-blue-700 text-sm">
-        <i class="fas fa-search"></i> Não sei o meu CEP
-      </a>
-    </div>
+    {% for field in form %}
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ field.id_for_label }}">
+          {{ field.label }}
+        </label>
+        {{ field }}
+        {% if field.errors %}
+          {% for error in field.errors %}
+            <p class="text-red-500 text-xs italic">{{ error }}</p>
+          {% endfor %}
+        {% endif %}
+      </div>
+    {% endfor %}
 
-    <!-- Street -->
-    <div class="mb-4">
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.street.id_for_label }}">
-        Rua
-      </label>
-      {{ form.street }}
-    </div>
-
-    <!-- Number -->
-    <div class="mb-4">
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.number.id_for_label }}">
-        Número
-      </label>
-      {{ form.number }}
-    </div>
-
-    <!-- Neighborhood -->
-    <div class="mb-4">
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.neighborhood.id_for_label }}">
-        Bairro
-      </label>
-      {{ form.neighborhood }}
-    </div>
-
-    <!-- City -->
-    <div class="mb-4">
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.city.id_for_label }}">
-        Cidade
-      </label>
-      {{ form.city }}
-    </div>
-
-    <!-- Complement -->
-    <div class="mb-4">
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.complement.id_for_label }}">
-        Complemento
-      </label>
-      {{ form.complement }}
-    </div>
-
-    <!-- State -->
-    <div class="mb-6">
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.state.id_for_label }}">
-        Estado
-      </label>
-      <select name="{{ form.state.name }}" id="{{ form.state.id_for_label }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-        {% for value, label in form.fields.state.choices %}
-          <option value="{{ value }}" {% if form.state.value == value %}selected{% endif %}>{{ label }}</option>
-        {% endfor %}
-      </select>
-    </div>
-
-    <!-- Submit Button -->
     <div class="flex items-center justify-between">
       <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-        Salvar Alterações
+        Atualizar Perfil
       </button>
     </div>
   </form>
 </div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const zipCodeInput = document.getElementById("id_zip_code");
-    const streetInput = document.getElementById("id_street");
-    const neighborhoodInput = document.getElementById("id_neighborhood");
-    const cityInput = document.getElementById("id_city");
-    const stateInput = document.getElementById("id_state");
-    const birthDateInput = document.getElementById("id_birth_date");
-    birthDateInput.type = "date";
-  });
-</script>
 {% endblock %}
 
 {% block extra_js %}
 {% endblock %}
-

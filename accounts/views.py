@@ -76,17 +76,38 @@ def logout_view(request):
 
 @login_required
 def edit_profile(request):
+    user = request.user
+    address = user.address_set.first()
+
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, instance=request.user)
+        form = UserProfileForm(request.POST, instance=user)
         if form.is_valid():
-            form.save()
-            return redirect('accounts:edit_profile')  # Certifique-se de que este nome corresponda ao definido em urls.py
+            with transaction.atomic():
+                user = form.save()
+                address_data = {
+                    'street': form.cleaned_data['street'],
+                    'neighborhood': form.cleaned_data['neighborhood'],
+                    'city': form.cleaned_data['city'],
+                    'number': form.cleaned_data['number'],
+                    'complement': form.cleaned_data['complement'],
+                    'state': form.cleaned_data['state'],
+                    'zipcode': form.cleaned_data['zipcode'],
+                }
+                if address:
+                    for key, value in address_data.items():
+                        setattr(address, key, value)
+                    address.save()
+                else:
+                    Address.objects.create(user=user, **address_data)
+            messages.success(request, 'Perfil atualizado com sucesso!')
+            return redirect('accounts:edit_profile')
     else:
-        form = UserProfileForm(instance=request.user)
-        context = {
-            'form': form,
-            'title': 'Editar Perfil',
-        }
+        form = UserProfileForm(instance=user)
+
+    context = {
+        'form': form,
+        'title': 'Editar Perfil',
+    }
     return render(request, 'accounts/edit.html', context)
 
 def forgot_password(request):
