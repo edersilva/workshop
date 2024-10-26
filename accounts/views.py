@@ -141,3 +141,34 @@ def forgot_password(request):
         'title': 'Esqueceu sua senha?',
     }
     return render(request, 'accounts/forgot-password.html', context)
+
+def reset_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+        
+        User = get_user_model()
+        
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            messages.error(request, 'Não existe usuário com este e-mail.')
+            return render(request, 'accounts/forgot-password.html')
+        
+        if new_password != confirm_password:
+            messages.error(request, 'As senhas não coincidem.')
+            return render(request, 'accounts/reset-password.html')
+        
+        user.set_password(new_password)
+        user.save()
+        
+        messages.success(request, 'Sua senha foi redefinida com sucesso.')
+        return redirect('accounts:login')  # Redireciona para a página de login
+    context = { 
+        'title': 'Redefinir Senha',
+    }
+    # Adiciona mensagens de sucesso ou erro ao contexto
+    if messages.get_messages(request):
+        context['messages'] = messages.get_messages(request)
+    return render(request, 'accounts/reset-password.html', context)

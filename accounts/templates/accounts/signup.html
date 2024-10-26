@@ -25,36 +25,4 @@
     </div>
   </form>
 </div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const zipCodeInput = document.getElementById("id_zipcode");
-    const streetInput = document.getElementById("id_street");
-    const neighborhoodInput = document.getElementById("id_neighborhood");
-    const cityInput = document.getElementById("id_city");
-    const stateInput = document.getElementById("id_state");
-
-    if (zipCodeInput) {
-      zipCodeInput.addEventListener("blur", function () {
-        const zipCode = zipCodeInput.value.replace(/\D/g, "");
-        if (zipCode.length === 8) {
-          fetch(`https://viacep.com.br/ws/${zipCode}/json/`)
-            .then((response) => response.json())
-            .then((data) => {
-              if (!data.erro) {
-                if (streetInput) streetInput.value = data.logradouro;
-                if (neighborhoodInput) neighborhoodInput.value = data.bairro;
-                if (cityInput) cityInput.value = data.localidade;
-                if (stateInput) stateInput.value = data.uf;
-              }
-              id_number.focus();
-            })
-            .catch((error) => console.error("Erro ao buscar CEP:", error));
-        }
-      });
-    } else {
-      console.error("Campo de CEP não encontrado");
-    }
-  });
-</script>
 {% endblock %}

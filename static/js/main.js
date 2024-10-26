@@ -172,13 +172,16 @@ document.addEventListener("DOMContentLoaded", function () {
       const lessonId = button.getAttribute("data-content-id");
       const workshopId = button.getAttribute("data-workshop-id");
       try {
-        const response = await fetch(`/lesson/complete/${workshopId}/${lessonId}/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCookie("csrftoken"),
-          },
-        });
+        const response = await fetch(
+          `/lesson/complete/${workshopId}/${lessonId}/`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": getCookie("csrftoken"),
+            },
+          }
+        );
         if (response.ok) {
           console.log("Aula concluída com sucesso");
           window.location.reload();
@@ -210,6 +213,53 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     return cookieValue;
   }
+
+  // Add this new function to hide messages with animation
+  function hideMessages() {
+    const messagesDiv = document.querySelector(".messages");
+    if (messagesDiv) {
+      setTimeout(() => {
+        messagesDiv.style.transition = "opacity 1s ease-out";
+        messagesDiv.style.opacity = "0";
+        setTimeout(() => {
+          messagesDiv.style.display = "none";
+        }, 1000);
+      }, 5000);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const zipCodeInput = document.getElementById("id_zipcode");
+    const streetInput = document.getElementById("id_street");
+    const neighborhoodInput = document.getElementById("id_neighborhood");
+    const cityInput = document.getElementById("id_city");
+    const stateInput = document.getElementById("id_state");
+
+    if (zipCodeInput) {
+      zipCodeInput.addEventListener("blur", function () {
+        const zipCode = zipCodeInput.value.replace(/\D/g, "");
+        if (zipCode.length === 8) {
+          fetch(`https://viacep.com.br/ws/${zipCode}/json/`)
+            .then((response) => response.json())
+            .then((data) => {
+              if (!data.erro) {
+                if (streetInput) streetInput.value = data.logradouro;
+                if (neighborhoodInput) neighborhoodInput.value = data.bairro;
+                if (cityInput) cityInput.value = data.localidade;
+                if (stateInput) stateInput.value = data.uf;
+              }
+              id_number.focus();
+            })
+            .catch((error) => console.error("Erro ao buscar CEP:", error));
+        }
+      });
+    } else {
+      console.error("Campo de CEP não encontrado");
+    }
+  });
+
+  // Call the function to hide messages
+  hideMessages();
 
   openModalDialog();
   closeModalDialog();

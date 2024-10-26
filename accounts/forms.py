@@ -55,17 +55,17 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(attrs=COMMON_FIELD_ATTRS))
 
 class UserProfileForm(forms.ModelForm):
-    street = forms.CharField(max_length=255, required=False)
-    neighborhood = forms.CharField(max_length=255, required=False)
-    city = forms.CharField(max_length=255, required=False)
-    number = forms.CharField(max_length=10, required=False)
-    complement = forms.CharField(max_length=255, required=False)
-    state = forms.CharField(max_length=2, required=False)
-    zipcode = forms.CharField(max_length=10, required=False)
+    zipcode = forms.CharField(max_length=10, required=False, label='CEP')
+    street = forms.CharField(max_length=255, required=False, label='Rua')
+    neighborhood = forms.CharField(max_length=255, required=False, label='Bairro')
+    city = forms.CharField(max_length=255, required=False, label='Cidade')
+    number = forms.CharField(max_length=10, required=False, label='Número')
+    complement = forms.CharField(max_length=255, required=False, label='Complemento')
+    state = forms.ChoiceField(choices=ESTADOS_CHOICES, required=False, label='Estado')
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'street', 'neighborhood', 'city', 'number', 'complement', 'state', 'zipcode']
+        fields = ['first_name', 'last_name', 'email', 'zipcode', 'street', 'neighborhood', 'city', 'number', 'complement', 'state']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -82,6 +82,10 @@ class UserProfileForm(forms.ModelForm):
                     self.fields['zipcode'].initial = address.zipcode
             except Address.DoesNotExist:
                 pass
+
+        # Add this line to update the widget attributes for all fields
+        for field in self.fields.values():
+            field.widget.attrs.update(COMMON_FIELD_ATTRS)
 
     def save(self, commit=True):
         user = super().save(commit=False)
