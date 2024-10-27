@@ -101,12 +101,24 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'workshop',
+            'USER': 'postgres',
+            'PASSWORD': '21241906',
+            'HOST': 'workshop_db-workshops',
+            'PORT': '5432',
+        }
+    }
 
 
 # Password validation
@@ -172,3 +184,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'seu_email@exemplo.com'
 EMAIL_HOST_USER = 'sua_senha'
+
