@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-tip-gf@p0fsn=9&&#0x5*o+=$!+_61@c49*32d8g5+fw&dybty'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '.edersilva.com',  # Permite edersilva.com e todos seus subdomínios
