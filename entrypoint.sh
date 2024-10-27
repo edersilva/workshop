@@ -5,7 +5,9 @@
 
 # Realize as migrações
 python manage.py makemigrations
+python manage.py makemigrations address  # Add specific makemigrations for address app
 python manage.py migrate
+python manage.py migrate address  # Add specific migrate for address app
 
 # Populate the database in a specific order
 # python manage.py populate_professors 10
@@ -30,7 +32,7 @@ if [ ! -f "/app/workshops/wsgi.py" ]; then
     exit 1
 fi
 
-RUN python manage.py collectstatic --noinput
+python manage.py collectstatic --noinput
 
 # Inicie o servidor Django
 #exec gunicorn app.wsgi:application --bind 0.0.0.0:8000
