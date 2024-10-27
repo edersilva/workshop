@@ -30,7 +30,7 @@ if [ ! -f "/app/workshops/wsgi.py" ]; then
     exit 1
 fi
 
-RUN python manage.py collectstatic --noinput
+python manage.py collectstatic --noinput
 
 # Inicie o servidor Django
 #exec gunicorn app.wsgi:application --bind 0.0.0.0:8000
