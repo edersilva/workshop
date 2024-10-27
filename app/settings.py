@@ -28,6 +28,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
+
 # Add this setting
 CSRF_TRUSTED_ORIGINS = [
     'https://workshops.edersilva.com',
