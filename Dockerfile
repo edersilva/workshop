@@ -4,10 +4,14 @@ FROM python:latest
 # Defina o diretório de trabalho dentro do container
 WORKDIR /app
 
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
 # Copie os arquivos de requisitos e instale as dependências
-COPY requirements.txt .
+COPY requirements.txt /app/requirements.txt
 RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install gunicorn
 
 # Copie o código da aplicação para o diretório de trabalho no container
