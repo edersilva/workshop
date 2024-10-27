@@ -30,7 +30,7 @@
           <span>{{ workshop.lessons.count }} aulas</span>
         </div>
       </div>
-      {% include 'btn-favorite.html' with id=workshop.id %}
+      {% include 'btn-favorite.html' with id=workshop.id is_favorited=is_favorited %}
     </div>
 
       <div class="mt-4 description">

@@ -22,7 +22,7 @@
 
 <h2 class="text-xl font-semibold pt-20 mb-4">Outras aulas deste workshop:</h2>
 <ul class="flex-1 gap-4">
-  {% for lesson in workshop.lessons.all %} {% include 'lesson/lessons.html' with status=is_completed %}
+  {% for lesson in workshop.lessons.all %} {% include 'lesson/lessons.html' with status=completed_lesson_ids %}
   {% endfor %}
 </ul>
 {% endblock %}

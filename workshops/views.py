@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Workshop, JoinWorkshop
 from lesson.models import LessonCompleted, Lesson
 from .utils import is_user_joined, has_user_completed_workshop, has_user_completed_all_lessons
+from favorites.utils import is_workshop_favorited
 
 class WorkshopListView(LoginRequiredMixin, ListView):
     model = Workshop
@@ -59,6 +60,7 @@ class WorkshopDetailView(DetailView):
         context['title'] = self.object.title
         context['reviews'] = self.object.review_set.all()
         context['is_joined'] = is_user_joined(self.request.user, self.object)
+        context['is_favorited'] = is_workshop_favorited(self.request.user, self.object)
         context['status'] = has_user_completed_workshop(self.request.user, self.object)
         context['all_lessons_completed'] = has_user_completed_all_lessons(self.request.user, self.object)
         context['progress_percentage'] = calculate_user_workshop_progress(self.request.user, self.object)
