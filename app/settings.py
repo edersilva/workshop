@@ -26,7 +26,18 @@ SECRET_KEY = 'django-insecure-tip-gf@p0fsn=9&&#0x5*o+=$!+_61@c49*32d8g5+fw&dybty
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    '.edersilva.com',  # Permite edersilva.com e todos seus subdomínios
+    'localhost',
+    '127.0.0.1',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.edersilva.com',
+    'https://edersilva.com',
+    'http://localhost',
+    'http://127.0.0.1',
+]
 
 
 # Application definition
@@ -60,7 +71,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
