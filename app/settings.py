@@ -27,9 +27,9 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['workshop-cursos.04cz3f.easypanel.host', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
-# Correct setting for CSRF trusted origins
+# Add this setting for CSRF trusted origins
 CSRF_TRUSTED_ORIGINS = ['https://workshop-cursos.04cz3f.easypanel.host']
 
 # Application definition
