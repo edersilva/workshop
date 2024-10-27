@@ -1,19 +1,37 @@
+# Project Setup and Management
 
-Ativar o ambiente virtual
-source venv/bin/activate
+## Environment Setup
 
-Instalar as dependências
-pip install -r requirements.txt
+1. Activate the virtual environment:
+   ```bash
+   source venv/bin/activate
+   ```
 
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Criar as migrações
-python manage.py makemigrations
+## Database Management
 
-Migrar
-python manage.py migrate
+3. Create migrations:
+   ```bash
+   python manage.py makemigrations
+   ```
 
-Criar um super usuário
-python manage.py createsuperuser
+4. Apply migrations:
+   ```bash
+   python manage.py migrate
+   ```
+
+5. Create a superuser:
+   ```bash
+   python manage.py createsuperuser
+   ```
+
+## Populating the Database
+
+You can populate the database with sample data using the following commands:
 
 Criar os professores
 python manage.py populate_professors 10
@@ -41,3 +59,21 @@ python manage.py populate_all
 
 Limpar todos os dados
 python manage.py flush
+
+
+
+docker build -t workshops .
+
+docker run -d -p 8000:8000 --name workshops workshops
+
+http://localhost:8000
+
+docker ps 
+
+docker logs workshops
+
+docker stop workshops
+
+docker rm workshops
+
+docker rmi workshops

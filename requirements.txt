@@ -1,5 +1,5 @@
 asgiref==3.8.1
-Django==5.1.1
+Django==4.2.11
 django-unfold==0.40.0
 django-widget-tweaks==1.5.0
 factory_boy==3.3.1
