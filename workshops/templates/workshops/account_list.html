@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block content %}
+{% if workshops %}
+<ul class="space-y-6">
+  {% for workshop in workshops %}
+    {% if workshop.id in user_joined %}
+      {% include "workshops/card.html" with workshop=workshop %}
+    {% endif %}
+  {% endfor %}
+</ul>
+{% else %}
+<p class="text-center text-gray-700">
+  Você não está participando de nenhum Workshop.
+</p>
+{% endif %} {% endblock %}

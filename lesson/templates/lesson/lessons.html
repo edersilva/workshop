@@ -1,0 +1,27 @@
+{% if joined %}
+<li>
+<a
+  href="{% url 'lesson:view_lesson' workshop_id=workshop.id lesson_id=lesson.id %}"
+  class="block bg-white shadow rounded-lg p-4 mb-4"
+  title="{{lesson.title}}"
+>
+{% else %}
+<div class="block bg-white shadow rounded-lg p-4 mb-4">
+{% endif %}
+    <div class="flex justify-between items-center">
+        <div class="flex-1">
+            <h3 class="text-lg font-semibold mb-2">{{ lesson.title }}</h3>
+            <p class="text-gray-600">Professor: {{ lesson.professor.title }}</p>
+        </div>
+        <div class="flex-none">
+            {% if lesson.id in status %}
+                {% include 'completed.html' %}
+            {% endif %}
+        </div>
+    </div>
+{% if joined %}
+</a>
+{% else %}
+</div>
+{% endif %}
+</li>

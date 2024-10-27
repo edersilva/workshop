@@ -32,7 +32,6 @@ Thumbs.db
 
 # Project specific
 media/
-static/
 *.env
 
 # Ignore all migrations directories in any app

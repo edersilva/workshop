@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+{% if reviews %}
+{% include "reviews/list.html" with is_view_template=True %}
+{% include "dialogs.html" %}
+{% else %}
+<p>Nenhum comentário encontrado</p>
+{% endif %}
+{% endblock %}

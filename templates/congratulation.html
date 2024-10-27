@@ -1,0 +1,15 @@
+<div
+  class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-8 rounded-lg shadow-md"
+>
+  <h2 class="text-2xl font-bold mb-2">Parabéns pela conclusão do Workshop!</h2>
+  <p class="mb-4">
+    Você concluiu com sucesso todas as aula. Seu certificado
+    está pronto.
+  </p>
+  <a
+    href="{% url 'certificate:detail' workshop.id %}"
+    class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded inline-block transition duration-300"
+  >
+    Ver Certificado
+  </a>
+</div>

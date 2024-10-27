@@ -1,4 +1,6 @@
 from django.db import models
+from django.conf import settings
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     id = models.AutoField(primary_key=True)
@@ -21,9 +23,20 @@ class Workshop(models.Model):
     startdate = models.DateTimeField(verbose_name="Data de início")
     enddate = models.DateTimeField(verbose_name="Data de término")
     lessons = models.ManyToManyField('lesson.Lesson', related_name='workshops', verbose_name="Aulas do workshop")
+    certificate = models.ForeignKey('certificate.Certificate', on_delete=models.PROTECT, related_name='workshops', null=True, blank=True, verbose_name="Certificado")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
     def __str__(self):
         return self.title
+
+class JoinWorkshop(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='join_workshops')
+    workshop = models.ForeignKey('Workshop', on_delete=models.CASCADE, related_name='join_workshops')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Inscritos'
+        verbose_name_plural = 'Inscritos'
+        unique_together = ('user', 'workshop')

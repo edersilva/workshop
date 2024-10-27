@@ -1,121 +1,79 @@
+# Project Setup and Management
 
-# Django Project
+## Environment Setup
 
-## Introduction
+1. Activate the virtual environment:
+   ```bash
+   source venv/bin/activate
+   ```
 
-This is a Django-based web application designed to [briefly describe the project's purpose]. The application includes features such as [list key features] and uses PostgreSQL for the database.
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-## Project Structure
+## Database Management
 
-The project follows the default Django structure:
+3. Create migrations:
+   ```bash
+   python manage.py makemigrations
+   ```
 
-```
-├── myproject/
-│   ├── manage.py
-│   ├── myproject/
-│   │   ├── __init__.py
-│   │   ├── settings.py
-│   │   ├── urls.py
-│   │   ├── wsgi.py
-│   ├── app1/
-│   ├── app2/
-├── requirements.txt
-```
+4. Apply migrations:
+   ```bash
+   python manage.py migrate
+   ```
 
-## Requirements
+5. Create a superuser:
+   ```bash
+   python manage.py createsuperuser
+   ```
 
-To run this project, you need the following dependencies installed:
+## Populating the Database
 
-- Python 3.x
-- Django 3.x (or another version depending on your project)
-- PostgreSQL
-- [Other dependencies, e.g., Django REST Framework, Celery]
+You can populate the database with sample data using the following commands:
 
-## Installation
+Criar os professores
+python manage.py populate_professors 10
 
-### 1. Clone the repository
+Criar as aulas
+python manage.py populate_lessons 10
 
-```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
-```
+Criar os workshops
+python manage.py populate_workshops 20
 
-### 2. Set up a virtual environment
+Criar os usuários
+python manage.py populate_users 10
 
-It's recommended to use a virtual environment to manage dependencies:
+Criar os favoritos
+python manage.py populate_favorites 10
 
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows use: venv\Scripts\activate
-```
+Criar os comentários
+python manage.py populate_reviews 10
 
-### 3. Install dependencies
+Criar os certificados
+python manage.py populate_certificates 10
 
-```bash
-pip install -r requirements.txt
-```
+Ou
+python manage.py populate_all
 
-### 4. Configure the database
+Limpar todos os dados
+python manage.py flush
 
-Ensure PostgreSQL is installed and running, and then create a database:
 
-```bash
-psql
-CREATE DATABASE myprojectdb;
-CREATE USER myprojectuser WITH PASSWORD 'password';
-ALTER ROLE myprojectuser SET client_encoding TO 'utf8';
-ALTER ROLE myprojectuser SET default_transaction_isolation TO 'read committed';
-ALTER ROLE myprojectuser SET timezone TO 'UTC';
-GRANT ALL PRIVILEGES ON DATABASE myprojectdb TO myprojectuser;
-```
 
-Update the `DATABASES` section in `settings.py` with your PostgreSQL database credentials:
+docker build -t workshops .
 
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'myprojectdb',
-        'USER': 'myprojectuser',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-```
+docker run -d -p 8000:8000 --name workshops workshops
 
-### 5. Apply migrations
+http://localhost:8000
 
-```bash
-python manage.py migrate
-```
+docker ps 
 
-### 6. Create a superuser
+docker logs workshops
 
-```bash
-python manage.py createsuperuser
-```
+docker stop workshops
 
-### 7. Run the server
+docker rm workshops
 
-```bash
-python manage.py runserver
-```
-
-Now the application should be running at `http://127.0.0.1:8000/`.
-
-## Running Tests
-
-To run the automated tests for this system:
-
-```bash
-python manage.py test
-```
-
-## Deployment
-
-You can deploy the project using services like Heroku, AWS, or DigitalOcean. Be sure to configure environment variables such as `DEBUG`, `DATABASE_URL`, and `SECRET_KEY` for the production environment.
-
-## License
-
-This project is licensed under the [LICENSE] - see the LICENSE file for details.
+docker rmi workshops

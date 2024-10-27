@@ -1,0 +1,43 @@
+<li data-content-item-id="{{ favorite.id }}" class="bg-white rounded-lg shadow-md overflow-hidden flex p-5">
+    <a href="{% url 'workshop_detail' workshop.id %}" class="flex w-full">
+        <div class="flex flex-1 gap-10">
+            {% if workshop.image %}
+                <img src="{{ workshop.image.url }}" alt="{{ workshop.title }}" class="w-[70px] h-[70px] object-cover rounded-md">
+            {% else %}
+                <div class="w-[70px] h-[70px] bg-gray-300 flex items-center text-center justify-center text-gray-500 rounded-md">
+                    <span class="text-xs">Sem imagem</span>
+                </div>
+            {% endif %}
+            <div class="flex-1 ml-5 items-start">
+                <h2 class="text-xl font-semibold mb-2 text-gray-800">{{ workshop.title }}</h2>
+                <div class="flex items-center">
+                    <div class="flex items-center mr-4">
+                        {% with ''|center:5 as range %}
+                        {% for _ in range %}
+                            <i class="fas fa-star {% if forloop.counter <= workshop.avg_rating %}text-yellow-400{% else %}text-gray-300{% endif %}"></i>
+                        {% endfor %}
+                        {% endwith %}
+                    </div>
+                    <p class="text-sm text-gray-600">{{ workshop.startdate|date:"d/m/Y" }}</p>
+                </div>
+            </div>
+        </div>
+        {% if workshop.id in is_joined %}
+        {% include 'joined.html' %}
+        {% endif %}
+    </a>
+    {% if close_button %}
+    <div class="flex items-center ml-4">
+        <button data-type="favorites" data-content-id="{{ favorite.id }}" class="btn-delete bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 text-sm rounded">
+            Excluir
+        </button>
+    </div>
+    {% endif %}
+    {% if edit_button %}
+    <div class="flex items-center ml-4">
+        <button class="btn-edit bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 text-sm rounded">
+            Editar
+        </button>
+    </div>
+    {% endif %}
+</li>

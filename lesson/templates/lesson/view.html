@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block content %} {% if lesson.video %}
+<iframe
+  width="100%"
+  height="500"
+  src="{{ lesson.video }}"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen
+  class="mb-8"
+></iframe>
+{% endif %}
+
+<h1 class="text-3xl font-bold mb-4">{{ lesson.title }}</h1>
+<p class="text-lg">Professor(a): {{ lesson.professor.title }}</p>
+<p>{{ lesson.content }}</p>
+
+{% if not is_completed %}
+{% include 'btn-actions.html' with type='complete-lesson' title='Concluir aula' id=lesson.id workshop_id=workshop.id %} 
+{% endif %}
+
+<h2 class="text-xl font-semibold pt-20 mb-4">Outras aulas deste workshop:</h2>
+<ul class="flex-1 gap-4">
+  {% for lesson in workshop.lessons.all %} {% include 'lesson/lessons.html' with status=completed_lesson_ids %}
+  {% endfor %}
+</ul>
+{% endblock %}

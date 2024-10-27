@@ -1,0 +1,82 @@
+{% extends 'base.html' %} {% block content %}
+  <div class="container mx-auto px-4 py-8">
+    
+    {% if is_joined %}
+      {% if not all_lessons_completed %}
+        {% include 'progress.html' %}
+      {% endif %}
+    {% endif %}
+
+    {% if all_lessons_completed and is_joined %}
+      {% include 'congratulation.html' %}
+    {% endif %}
+
+    <h1 class="text-3xl font-bold mb-4">{{ workshop.name }}</h1>
+
+    {% if success %}
+    <div class="alert alert-success" role="alert">
+      {{ success }}
+    </div>
+    {% endif %}
+
+    <div class="flex justify-between items-center mb-4">
+      <div class="flex items-center space-x-4">
+        <div class="border rounded-lg px-2 py-1">
+          {% with workshop_rating=workshop.avg_rating|default_if_none:0 %}
+            {% include 'rating.html' with rating=workshop_rating %}
+          {% endwith %}
+        </div>
+        <div class="border rounded-lg px-2 py-1">
+          <span>{{ workshop.lessons.count }} aulas</span>
+        </div>
+      </div>
+      {% include 'btn-favorite.html' with id=workshop.id is_favorited=is_favorited %}
+    </div>
+
+      <div class="mt-4 description">
+        <h2 class="text-2xl font-bold mb-4">Sobre</h2>
+        <p class="mb-4">{{ workshop.description }}</p>
+      </div>
+
+      <div class="mt-4 lessons" x-cloak>
+        <h2 class="text-2xl font-bold mb-4">Aulas</h2>
+        <div class="flex-1 gap-4">
+          <ul>
+            {% for lesson in workshop.lessons.all %}
+              {% include 'lesson/lessons.html' with joined=is_joined status=status %}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-4 reviews" x-cloak>
+        {% for review in workshop.reviews.all %}
+        <div class="bg-white shadow rounded-lg p-4 mb-4">
+          <div class="flex items-center mb-2">
+            <span class="font-semibold mr-2">{{ review.user.name }}</span>
+            {% include 'rating.html' with rating=review.rating %}
+          </div>
+          <p>{{ review.comment }}</p>
+          
+        </div>
+        {% endfor %}
+          
+          {% include 'reviews/list.html' with workshop=workshop %}
+          {% if all_lessons_completed %}
+          {% if is_joined %}
+            {% include 'reviews/form.html' with workshop=workshop %}
+          {% endif %}
+          {% endif %}
+      </div>
+    
+  </div>
+  
+  {% if not is_joined %}
+    {% include 'btn-actions.html' with type='join-workshop' title='Inscrever-se' id=workshop.id %}
+  {% endif %}
+</div>
+
+
+{% endblock %} {% block extra_js %}
+
+{% endblock %}

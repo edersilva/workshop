@@ -1,0 +1,11 @@
+<div class="fixed bottom-0 left-0 right-0 w-full">
+  <a
+    href="#"
+    class="btn-{{ type }} block bg-blue-500 py-5 text-center hover:bg-blue-600 text-white font-bold focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+    data-content-id="{{ id }}"
+    {% if workshop_id %}
+    data-workshop-id="{{ workshop_id }}"
+    {% endif %}
+    >{% if title %}{{ title }}{% else %}Concluir aula{% endif %}</a
+  >
+</div>
