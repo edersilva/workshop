@@ -26,9 +26,9 @@ SECRET_KEY = 'django-insecure-tip-gf@p0fsn=9&&#0x5*o+=$!+_61@c49*32d8g5+fw&dybty
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['workshop-cursos.04cz3f.easypanel.host', 'localhost', '127.0.0.1']
 
-
+CSRF_TRUSTED_ORIGINS = ['https://workshop-cursos.04cz3f.easypanel.host']
 # Application definition
 
 INSTALLED_APPS = [
@@ -161,10 +161,3 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'seu_email@exemplo.com'
 EMAIL_HOST_USER = 'sua_senha'
-
-# SECURE_SSL_REDIRECT = False
-# SESSION_COOKIE_SECURE = False
-# CSRF_COOKIE_SECURE = False
-# SECURE_HSTS_SECONDS = 0
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = False
-# SECURE_HSTS_PRELOAD = False
