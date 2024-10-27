@@ -13,8 +13,6 @@ COPY requirements.txt /app/requirements.txt
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install gunicorn
-RUN python manage.py makemigrations
-RUN python manage.py migrate
 
 # Copie o código da aplicação para o diretório de trabalho no container
 COPY . .
@@ -23,9 +21,8 @@ COPY . .
 EXPOSE 8000
 
 # Copie o script de entrada e torne-o executável
-#COPY entrypoint.sh /entrypoint.sh
-#RUN chmod +x /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 # Defina o script de entrada como comando padrão
-#ENTRYPOINT ["/entrypoint.sh"]
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["/entrypoint.sh"]
