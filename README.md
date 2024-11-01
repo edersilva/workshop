@@ -62,9 +62,7 @@ python manage.py flush
 
 
 
-docker build -t workshops .
-
-docker run -d -p 8000:8000 --name workshops workshops
+docker build -t workshops . && docker run -d -p 8000:8000 --name workshops workshops
 
 http://localhost:8000
 
