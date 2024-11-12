@@ -40,7 +40,7 @@ Criar as aulas
 python manage.py populate_lessons 10
 
 Criar os workshops
-python manage.py populate_workshops 20
+python manage.py populate_workshops 10
 
 Criar os usuários
 python manage.py populate_users 10
