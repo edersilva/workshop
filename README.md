@@ -40,7 +40,7 @@ Criar as aulas
 python manage.py populate_lessons 10
 
 Criar os workshops
-python manage.py populate_workshops 20
+python manage.py populate_workshops 10
 
 Criar os usuários
 python manage.py populate_users 10
@@ -62,9 +62,7 @@ python manage.py flush
 
 
 
-docker build -t workshops .
-
-docker run -d -p 8000:8000 --name workshops workshops
+docker build -t workshops . && docker run -d -p 8000:8000 --name workshops workshops
 
 http://localhost:8000
 

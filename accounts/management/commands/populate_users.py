@@ -14,7 +14,7 @@ class Command(BaseCommand):
         parser.add_argument('count', nargs='?', type=int, default=10, help='Number of users to create')
 
     def handle(self, *args, **options):
-        fake = Faker('pt_BR')  # Using Brazilian Portuguese locale
+        fake = Faker('pt_BR')  # Usando localização em Português do Brasil
         count = options['count']
 
         for _ in range(count):
@@ -24,15 +24,15 @@ class Command(BaseCommand):
             first_name = fake.first_name()
             last_name = fake.last_name()
             
-            # CustomUser fields
-            zip_code = fake.postcode()
-            city = fake.city()
-            state = fake.state_abbr()
-            neighborhood = fake.neighborhood()
+            # Dados de endereço em formato brasileiro
+            zip_code = fake.postcode()  # CEP brasileiro
+            city = fake.city()  # Cidade brasileira
+            state = fake.state_abbr()  # Estado brasileiro (sigla)
+            neighborhood = fake.bairro()  # Usando bairro ao invés de neighborhood
             gender = random.choice(['M', 'F'])
             complement = f"Apto {fake.random_int(min=1, max=999)}"
             birth_date = fake.date_of_birth(minimum_age=18, maximum_age=80)
-            street = fake.street_name()
+            street = fake.street_name()  # Rua brasileira
             number = fake.building_number()
 
             # Separate user fields from additional fields
