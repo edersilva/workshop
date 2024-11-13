@@ -43,7 +43,7 @@
         <div class="flex-1 gap-4">
           <ul>
             {% for lesson in workshop.lessons.all %}
-              {% include 'lesson/lessons.html' with joined=is_joined status=status %}
+              {% include 'lesson/lessons.html' with joined=is_joined status=status lesson_number=forloop.counter %}
             {% endfor %}
           </ul>
         </div>
