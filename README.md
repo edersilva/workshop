@@ -43,5 +43,10 @@
 
 ### Administrator Access
 - **URL:** <a href="https://workshops.edersilva.com/admin" target="_blank">https://workshops.edersilva.com/admin</a>
-- **Username:** puc@minas.com
+- **Username:** puc
 - **Password:** admin123
+
+### User Access
+- **URL:** <a href="https://workshops.edersilva.com" target="_blank">https://workshops.edersilva.com</a>
+- **Username:** heitor@pucminas.com
+- **Password:** meufilho
