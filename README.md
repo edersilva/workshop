@@ -14,64 +14,34 @@
 
 ## Database Management
 
-3. Create migrations:
+1. Create migrations:
    ```bash
    python manage.py makemigrations
    ```
 
-4. Apply migrations:
+2. Apply migrations:
    ```bash
    python manage.py migrate
    ```
 
-5. Create a superuser:
+## Docker Deployment
+
+1. Build and run the Docker container:
    ```bash
-   python manage.py createsuperuser
+   docker build -t workshops . && docker run -d -p 8000:8000 --name workshops workshops
    ```
 
-## Populating the Database
+2. Access the application at:
+   ```
+   http://localhost:8000
+   ```
 
-You can populate the database with sample data using the following commands:
+## Live Project
+https://workshops.edersilva.com/
 
-Criar os professores
-python manage.py populate_professors 10
+## Test User Credentials
 
-Criar as aulas
-python manage.py populate_lessons 10
-
-Criar os workshops
-python manage.py populate_workshops 10
-
-Criar os usuários
-python manage.py populate_users 10
-
-Criar os favoritos
-python manage.py populate_favorites 10
-
-Criar os comentários
-python manage.py populate_reviews 10
-
-Criar os certificados
-python manage.py populate_certificates 10
-
-Ou
-python manage.py populate_all
-
-Limpar todos os dados
-python manage.py flush
-
-
-
-docker build -t workshops . && docker run -d -p 8000:8000 --name workshops workshops
-
-http://localhost:8000
-
-docker ps 
-
-docker logs workshops
-
-docker stop workshops
-
-docker rm workshops
-
-docker rmi workshops
+### Administrator Access
+- **URL:** https://workshops.edersilva.com/admin
+- **Username:** puc@minas.com
+- **Password:** admin123
