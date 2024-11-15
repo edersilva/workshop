@@ -37,11 +37,11 @@
    ```
 
 ## Live Project
-https://workshops.edersilva.com/
+<a href="https://workshops.edersilva.com/" target="_blank">https://workshops.edersilva.com/</a>
 
 ## Test User Credentials
 
 ### Administrator Access
-- **URL:** https://workshops.edersilva.com/admin
+- **URL:** <a href="https://workshops.edersilva.com/admin" target="_blank">https://workshops.edersilva.com/admin</a>
 - **Username:** puc@minas.com
 - **Password:** admin123
