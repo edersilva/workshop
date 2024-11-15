@@ -12,7 +12,7 @@ ENV PYTHONUNBUFFERED 1
 COPY requirements.txt /app/requirements.txt
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install gunicorn
+RUN pip install gunicorn django-extensions
 
 # Copie o código da aplicação para o diretório de trabalho no container
 COPY . .
